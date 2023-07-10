@@ -1,0 +1,10 @@
+name: TownyWaypoints
+version: '1.0'
+main: net.mvndicraft.townywaypoints.TownyWaypoints
+description: Configurable Waypoints as Towny plots
+api-version: '1.20'
+folia-supported: true
+dependencies:
+  - name: Towny
+    required: true
+    boostrap: false

@@ -1,0 +1,12 @@
+stable:
+  name: "stable"
+  mapKey: 'S' # A single character to be shown on the /towny map and /towny map hud.
+  cost: 100.0 # A cost that will be paid to set the plot type.
+  sea: false
+  permission: townywaypoints.landpoint.stable
+seaport:
+  name: "seaport"
+  mapKey: 'P' # A single character to be shown on the /towny map and /towny map hud.
+  cost: 100.0 # A cost that will be paid to set the plot type.
+  sea: true
+  permission: townywaypoints.seapoint.seaport
