@@ -1,10 +1,10 @@
 package net.mvndicraft.townywaypoints.listeners;
 
+import com.palmergames.bukkit.towny.event.PlotPreChangeTypeEvent;
 import com.palmergames.bukkit.towny.event.TownBlockTypeRegisterEvent;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.exceptions.TownyException;
-import com.palmergames.bukkit.towny.object.TownBlockData;
-import com.palmergames.bukkit.towny.object.TownBlockType;
-import com.palmergames.bukkit.towny.object.TownBlockTypeHandler;
+import com.palmergames.bukkit.towny.object.*;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -44,6 +44,34 @@ public final class TownyListener implements Listener
   @EventHandler
   public void onTownyLoadTownBlockTypes(TownBlockTypeRegisterEvent event)
   {
-    TownyWaypoints.getWaypoints().forEach(waypoint -> registerPlot(waypoint.getName(), waypoint.getMapKey(), waypoint.getCost()));
+    TownyWaypoints.loadWaypoints();
+  }
+
+  private int getPlotTypeCount(Town town, String name)
+  {
+    int count = 0;
+
+    for (TownBlock townBlock : town.getTownBlocks())
+    {
+      if (townBlock.getType().getName().equalsIgnoreCase(name))
+        count++;
+    }
+
+    return count;
+  }
+
+  @EventHandler
+  public void onPlotChangeTypeEvent(PlotPreChangeTypeEvent event) throws NotRegisteredException {
+    TownBlock townBlock = event.getTownBlock();
+    String plotTypeName = event.getNewType().getName();
+    int max = TownyWaypoints.getWaypoints().get(plotTypeName).getMax();
+
+    if (!TownyWaypoints.getWaypoints().containsKey(plotTypeName))
+      return;
+
+    if (getPlotTypeCount(townBlock.getTown(), plotTypeName) >= max) {
+      event.setCancelMessage(String.format("Only %d plot(s) with this type allowed!", max));
+      event.setCancelled(true);
+    }
   }
 }

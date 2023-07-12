@@ -4,14 +4,16 @@ public final class Waypoint {
     private static String name;
     private static String mapKey;
     private static double cost;
+    private static int max;
     private static boolean sea;
     private static String permission;
 
-    public Waypoint(String name, String mapKey, double cost, boolean sea, String permission)
+    public Waypoint(String name, String mapKey, double cost, int max, boolean sea, String permission)
     {
         Waypoint.name = name;
         Waypoint.mapKey = mapKey;
         Waypoint.cost = cost;
+        Waypoint.max = max;
         Waypoint.sea = sea;
         Waypoint.permission = permission;
     }
@@ -29,6 +31,11 @@ public final class Waypoint {
     public double getCost()
     {
         return cost;
+    }
+
+    public int getMax()
+    {
+        return max;
     }
 
     public boolean isSea()

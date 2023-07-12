@@ -9,14 +9,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TownyWaypoints extends JavaPlugin
 {
   private static JavaPlugin plugin;
 
-  private static final ArrayList<Waypoint> waypoints = new ArrayList<>();
+  protected static final ConcurrentHashMap<String, Waypoint> waypoints = new ConcurrentHashMap<>();
 
   @Override
   public void onEnable()
@@ -35,17 +35,25 @@ public class TownyWaypoints extends JavaPlugin
   {
     plugin = this;
 
-    File waypointsDataFile = new File(getDataFolder(), "waypoints.yml");
+    loadWaypoints();
+  }
+
+  public static void loadWaypoints()
+  {
+    File waypointsDataFile = new File(plugin.getDataFolder(), "waypoints.yml");
 
     if (!waypointsDataFile.exists())
-      saveResource("waypoints.yml", true);
+      plugin.saveResource("waypoints.yml", true);
 
     FileConfiguration waypointsData = YamlConfiguration.loadConfiguration(waypointsDataFile);
     Set<String> waypointsConfig = waypointsData.getKeys(false);
     waypointsConfig.forEach(waypointConfig -> {
-      Waypoint waypoint = createWaypoint(waypointsData.getConfigurationSection(waypointConfig));
-      waypoints.add(waypoint);
+      ConfigurationSection waypointConfigSection = waypointsData.getConfigurationSection(waypointConfig);
+      if (waypointConfigSection == null)
+        return;
+      Waypoint waypoint = createWaypoint(waypointConfigSection);
       TownyListener.registerPlot(waypoint.getName(), waypoint.getMapKey(), waypoint.getCost());
+      waypoints.put(waypoint.getName(), waypoint);
     });
   }
 
@@ -55,12 +63,13 @@ public class TownyWaypoints extends JavaPlugin
     getLogger().info("disabled!");
   }
 
-  private Waypoint createWaypoint(ConfigurationSection config)
+  private static Waypoint createWaypoint(ConfigurationSection config)
   {
     return new Waypoint(
       config.getString("name"),
       config.getString("mapKey"),
       config.getDouble("cost"),
+      config.getInt("max"),
       config.getBoolean("sea"),
       config.getString("permission")
     );
@@ -71,7 +80,7 @@ public class TownyWaypoints extends JavaPlugin
     return plugin;
   }
 
-  public static ArrayList<Waypoint> getWaypoints()
+  public static ConcurrentHashMap<String, Waypoint> getWaypoints()
   {
     return waypoints;
   }
