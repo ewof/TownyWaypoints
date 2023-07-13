@@ -1,5 +1,7 @@
 package net.mvndicraft.townywaypoints;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import net.mvndicraft.townywaypoints.listeners.TownyListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,12 +18,18 @@ public class TownyWaypoints extends JavaPlugin
 {
   private static JavaPlugin plugin;
 
+  private static TaskScheduler taskScheduler;
+
   protected static final ConcurrentHashMap<String, Waypoint> waypoints = new ConcurrentHashMap<>();
 
   @Override
   public void onEnable()
   {
     PluginManager plugMan = Bukkit.getPluginManager();
+
+    saveDefaultConfig();
+
+    taskScheduler = UniversalScheduler.getScheduler(plugin);
 
     TownyListener townyListener = new TownyListener();
 
@@ -78,6 +86,11 @@ public class TownyWaypoints extends JavaPlugin
   public static JavaPlugin getPlugin()
   {
     return plugin;
+  }
+
+  public static TaskScheduler getScheduler()
+  {
+    return taskScheduler;
   }
 
   public static ConcurrentHashMap<String, Waypoint> getWaypoints()
