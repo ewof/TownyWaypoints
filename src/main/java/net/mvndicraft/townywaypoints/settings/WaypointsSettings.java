@@ -1,17 +1,20 @@
 package net.mvndicraft.townywaypoints.settings;
 
 import com.palmergames.bukkit.config.CommentedConfiguration;
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.TranslationLoader;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class WaypointsSettings {
     private static CommentedConfiguration config, newConfig;
 
 
-    public static void loadConfig() {
+    public static void loadConfigAndLang() {
         final Path path = TownyWaypoints.getInstance().getDataFolder().toPath().resolve("config.yml");
 
         if (!Files.exists(path)) {
@@ -31,6 +34,16 @@ public class WaypointsSettings {
 
         setDefaults(path);
         config.save();
+
+        TownyWaypoints instance = TownyWaypoints.getInstance();
+        try {
+            Path langFolderPath = Paths.get(instance.getDataFolder().getPath()).resolve("lang");
+            TranslationLoader loader = new TranslationLoader(langFolderPath, instance, TownyWaypoints.class);
+            loader.load();
+            TownyAPI.getInstance().addTranslations(instance, loader.getTranslations());
+        } catch (Exception e) {
+            instance.getLogger().severe("Language file failed to load! Disabling!");
+        }
     }
 
     public static void addComment(String root, String... comments) {

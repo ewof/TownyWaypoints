@@ -82,14 +82,14 @@ public final class TownyListener implements Listener
 
     String biomeName = loc.getBlock().getBiome().toString();
     if  (waypoint.getAllowedBiomes().size() != 0 && !waypoint.getAllowedBiomes().contains(biomeName)) {
-       event.setCancelMessage("This plot cannot be placed in biome " + biomeName);
+       event.setCancelMessage(Translatable.of("msg_err_biome_not_allowed",biomeName).defaultLocale());
        event.setCancelled(true);
     }
 
     int max = waypoint.getMax();
 
     if (getPlotTypeCount(townBlock.getTown(), plotTypeName) >= max) {
-      event.setCancelMessage(String.format("Only %d plot(s) with this type allowed!", max));
+      event.setCancelMessage(Translatable.of("msg_err_max_plots",biomeName).defaultLocale());
       event.setCancelled(true);
     }
   }

@@ -28,7 +28,7 @@ public class TownyWaypoints extends JavaPlugin
   {
     PluginManager plugMan = Bukkit.getPluginManager();
 
-    WaypointsSettings.loadConfig();
+    WaypointsSettings.loadConfigAndLang();
 
     taskScheduler = UniversalScheduler.getScheduler(instance);
 
