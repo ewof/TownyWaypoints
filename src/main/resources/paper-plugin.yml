@@ -5,6 +5,7 @@ description: Configurable Waypoints as Towny plots
 api-version: '1.20'
 folia-supported: true
 dependencies:
-  - name: Towny
-    required: true
-    boostrap: false
+  server:
+    Towny:
+      load: BEFORE
+      required: true
