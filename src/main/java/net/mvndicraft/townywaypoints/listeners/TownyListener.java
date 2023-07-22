@@ -10,15 +10,13 @@ import net.mvndicraft.townywaypoints.Waypoint;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class TownyListener implements Listener
 {
-  private final static JavaPlugin plugin = TownyWaypoints.getPlugin();
+  private final static TownyWaypoints instance = TownyWaypoints.getInstance();
   public static void registerPlot(String name, String mapKey, double cost)
   {
     if (TownBlockTypeHandler.exists(name))
@@ -39,7 +37,7 @@ public final class TownyListener implements Listener
     });
 
     try {
-      plugin.getLogger().info("registering new plot type " + name);
+      instance.getLogger().info("registering new plot type " + name);
       TownBlockTypeHandler.registerType(plot);
     } catch (TownyException e) {
       Bukkit.getLogger().severe(e.getMessage());
@@ -82,8 +80,9 @@ public final class TownyListener implements Listener
       return;
     Location loc = p.getLocation();
 
-    if  (waypoint.isSea() && loc.getBlock().getBiome() != Biome.BEACH) {
-       event.setCancelMessage("This plot type must be on a beach biome!");
+    String biomeName = loc.getBlock().getBiome().toString();
+    if  (waypoint.getAllowedBiomes().size() != 0 && !waypoint.getAllowedBiomes().contains(biomeName)) {
+       event.setCancelMessage("This plot cannot be placed in biome " + biomeName);
        event.setCancelled(true);
     }
 

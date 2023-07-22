@@ -1,21 +1,25 @@
 package net.mvndicraft.townywaypoints;
 
-public final class Waypoint {
-    private static String name;
-    private static String mapKey;
-    private static double cost;
-    private static int max;
-    private static boolean sea;
-    private static String permission;
+import java.util.List;
 
-    public Waypoint(String name, String mapKey, double cost, int max, boolean sea, String permission)
+public final class Waypoint {
+    private final String name;
+    private final String mapKey;
+    private final double cost;
+    private final int max;
+    private final boolean sea;
+    private final String permission;
+    private final List<String> allowedBiomes;
+
+    public Waypoint(String name, String mapKey, double cost, int max, boolean sea, String permission, List<String> allowedBiomes)
     {
-        Waypoint.name = name;
-        Waypoint.mapKey = mapKey;
-        Waypoint.cost = cost;
-        Waypoint.max = max;
-        Waypoint.sea = sea;
-        Waypoint.permission = permission;
+        this.name = name;
+        this.mapKey = mapKey;
+        this.cost = cost;
+        this.max = max;
+        this.sea = sea;
+        this.permission = permission;
+        this.allowedBiomes = allowedBiomes;
     }
 
     public String getName()
@@ -46,5 +50,10 @@ public final class Waypoint {
     public String getPermission()
     {
         return permission;
+    }
+
+    public List<String> getAllowedBiomes()
+    {
+        return allowedBiomes;
     }
 }
