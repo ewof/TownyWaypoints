@@ -9,3 +9,6 @@ dependencies:
     Towny:
       load: BEFORE
       required: true
+    Vault:
+      load: BEFORE
+      required: true

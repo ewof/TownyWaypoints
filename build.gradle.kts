@@ -20,6 +20,7 @@ dependencies {
   compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
   compileOnly("com.palmergames.bukkit.towny:towny:0.99.5.0")
   compileOnly("io.github.townyadvanced.commentedconfiguration:CommentedConfiguration:1.0.0")
+  compileOnly("com.github.MilkBowl:VaultAPI:1.7")
   implementation("com.github.Anon8281:UniversalScheduler:0.1.5")
   implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
 }

@@ -93,6 +93,13 @@ public class TownyWaypointsCommand extends BaseCommand
             }
         }
 
+        double cost = TownyWaypoints.getWaypoints().get(waypointName).getCost();
+
+        if (TownyWaypoints.getEconomy().getBalance(player) - cost < 0) {
+            Messaging.sendErrorMsg(player,Translatable.of("msg_err_insufficient_funds", cost));
+            return;
+        }
+
         if (townBlock == null)
             return;
 
@@ -102,11 +109,13 @@ public class TownyWaypointsCommand extends BaseCommand
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_set"));
             return;
         }
-        if (!LocationUtil.isSafe(loc)) {
-            Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_safe"));
-            return;
-        }
-
-        player.teleportAsync(loc);
+        TownyWaypoints.getScheduler().runTask(loc, () -> {
+            if (!LocationUtil.isSafe(loc)) {
+                Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_safe"));
+            } else {
+                TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
+                player.teleportAsync(loc);
+            }
+        });
     }
 }
