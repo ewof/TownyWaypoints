@@ -22,7 +22,7 @@ public final class TownyListener implements Listener
     if (TownBlockTypeHandler.exists(name))
       return;
 
-    TownBlockType plot = new TownBlockType(name, new TownBlockData() {
+    TownBlockType townBlockType = new TownBlockType(name, new TownBlockData() {
       @Override
       public String getMapKey()
       {
@@ -38,7 +38,7 @@ public final class TownyListener implements Listener
 
     try {
       instance.getLogger().info("registering new plot type " + name);
-      TownBlockTypeHandler.registerType(plot);
+      TownBlockTypeHandler.registerType(townBlockType);
     } catch (TownyException e) {
       Bukkit.getLogger().severe(e.getMessage());
     }

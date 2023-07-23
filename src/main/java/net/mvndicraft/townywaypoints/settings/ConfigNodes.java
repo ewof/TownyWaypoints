@@ -7,7 +7,7 @@ public enum ConfigNodes {
             "# This is the current version. Please do not edit."),
     LANGUAGE("language",
             "en_US.yml",
-            "# The language file you wish to use"),
+            "# The language file you wish to use."),
     WAYPOINTS("waypoints","",""),
     WAYPOINTS_COOLDOWNS(
             "waypoints.cooldowns",

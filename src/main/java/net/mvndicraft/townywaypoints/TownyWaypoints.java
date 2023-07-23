@@ -1,7 +1,11 @@
 package net.mvndicraft.townywaypoints;
 
+import co.aikar.commands.PaperCommandManager;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.*;
+import net.mvndicraft.townywaypoints.commands.TownyWaypointsCommand;
 import net.mvndicraft.townywaypoints.listeners.TownyListener;
 import net.mvndicraft.townywaypoints.settings.WaypointsSettings;
 import org.bukkit.Bukkit;
@@ -32,8 +36,53 @@ public class TownyWaypoints extends JavaPlugin
 
     taskScheduler = UniversalScheduler.getScheduler(instance);
 
-    TownyListener townyListener = new TownyListener();
+    PaperCommandManager manager = new PaperCommandManager(instance);
+    manager.registerCommand(new TownyWaypointsCommand());
+    manager.getCommandCompletions().registerAsyncCompletion("waypointed_towns", c -> {
+      ArrayList<String> towns = new ArrayList<>();
+      TownyAPI.getInstance().getTowns().forEach(town -> getWaypoints().keySet().forEach(waypoint -> {
+       if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockTypeHandler.getType(waypoint), TownBlockTypeCache.CacheType.ALL) > 0)
+         towns.add(town.getName());
+      }));
+     return towns;
+    });
+    manager.getCommandCompletions().registerAsyncCompletion("town_waypoints", c -> {
+      Town town = TownyAPI.getInstance().getTown(c.getContextValue(String.class, 1));
+      ArrayList<String> waypoints = new ArrayList<>();
 
+      if (town == null)
+        return waypoints;
+
+      getWaypoints().keySet().forEach(waypoint -> {
+        if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockTypeHandler.getType(waypoint), TownBlockTypeCache.CacheType.ALL) > 0)
+          waypoints.add(waypoint);
+      });
+     return waypoints;
+    });
+    manager.getCommandCompletions().registerAsyncCompletion("waypoint_plot_names", c -> {
+      Town town = TownyAPI.getInstance().getTown(c.getContextValue(String.class, 1));
+      String _townBlockTypeName = c.getContextValue(String.class, 2);
+      String townBlockTypeName = _townBlockTypeName.substring(0,_townBlockTypeName.length()-1); // this made me sad :(
+
+      ArrayList<String> plots = new ArrayList<>();
+
+      if (town == null)
+        return plots;
+
+      town.getTownBlocks().forEach(townBlock -> {
+        if (townBlock.getType().getName().equals(townBlockTypeName)) {
+          if (townBlock.getName().equals("")) {
+            plots.add("NOT_NAMED");
+          } else {
+            plots.add(townBlock.getName());
+          }
+        }
+      });
+
+      return plots;
+    });
+
+    TownyListener townyListener = new TownyListener();
     plugMan.registerEvents(townyListener, instance);
 
     getLogger().info("enabled!");

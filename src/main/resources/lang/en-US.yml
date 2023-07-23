@@ -23,5 +23,5 @@ description: >
 # DarkPurple = &9, LightGreen = &a, LightBlue = &b
 # Rose = &c, LightPurple = &d, Yellow = &e, White = &f
 
-msg_err_biome_not_allowed: 'This plot can only be placed in biome %s!'
+msg_err_biome_not_allowed: 'This plot can''t be placed in biome %s!'
 msg_err_max_plots: 'Only %d plot(s) with this type allowed!'

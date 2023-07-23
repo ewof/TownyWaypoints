@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 public class WaypointsSettings {
     private static CommentedConfiguration config, newConfig;
 
-
     public static void loadConfigAndLang() {
         final Path path = TownyWaypoints.getInstance().getDataFolder().toPath().resolve("config.yml");
 

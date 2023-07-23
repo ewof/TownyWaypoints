@@ -3,7 +3,6 @@ stable:
   mapKey: 'S' # A single character to be shown on the /towny map and /towny map hud.
   cost: 100.0 # A cost that will be paid to set the plot type.
   max: 1 # Max number of plots of this type allowed per town.
-  sea: false
   permission: townywaypoints.landpoint.stable # Permission node required to set a plot to a type of this waypoint, grant this in townyperms.yml
 seaport:
   name: "seaport"
