@@ -25,3 +25,9 @@ description: >
 
 msg_err_biome_not_allowed: 'This plot can''t be placed in biome %s!'
 msg_err_max_plots: 'Only %d plot(s) with this type allowed!'
+
+open_status_all: 'all'
+open_status_allies: 'allies'
+open_status_nation: 'nation'
+open_status_town: 'town'
+open_status_none: 'none'

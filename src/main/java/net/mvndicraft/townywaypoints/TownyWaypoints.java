@@ -3,11 +3,12 @@ package net.mvndicraft.townywaypoints;
 import co.aikar.commands.PaperCommandManager;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
+import com.google.common.collect.ImmutableList;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.*;
 import net.mvndicraft.townywaypoints.commands.TownyWaypointsCommand;
 import net.mvndicraft.townywaypoints.listeners.TownyListener;
-import net.mvndicraft.townywaypoints.settings.WaypointsSettings;
+import net.mvndicraft.townywaypoints.settings.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,7 +33,7 @@ public class TownyWaypoints extends JavaPlugin
   {
     PluginManager plugMan = Bukkit.getPluginManager();
 
-    WaypointsSettings.loadConfigAndLang();
+    Settings.loadConfigAndLang();
 
     taskScheduler = UniversalScheduler.getScheduler(instance);
 
@@ -81,6 +82,7 @@ public class TownyWaypoints extends JavaPlugin
 
       return plots;
     });
+    manager.getCommandCompletions().registerAsyncCompletion("open_statuses", c -> ImmutableList.of(Translatable.of("open_status_all").translate(), Translatable.of("open_status_allies").translate(), Translatable.of("open_status_nation").translate(), Translatable.of("open_status_town").translate(), Translatable.of("open_status_none").translate()));
 
     TownyListener townyListener = new TownyListener();
     plugMan.registerEvents(townyListener, instance);

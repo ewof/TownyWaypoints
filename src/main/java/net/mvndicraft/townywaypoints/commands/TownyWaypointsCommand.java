@@ -6,7 +6,7 @@ import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.Town;
 import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
-import net.mvndicraft.townywaypoints.settings.WaypointsSettings;
+import net.mvndicraft.townywaypoints.settings.Settings;
 import org.bukkit.entity.Player;
 
 @CommandAlias("townywaypoints|twaypoints|twp")
@@ -23,8 +23,25 @@ public class TownyWaypointsCommand extends BaseCommand
     @Description("Reloads the plugin config and locales.")
     public static void onReload(Player player)
     {
-        WaypointsSettings.loadConfigAndLang();
+        Settings.loadConfigAndLang();
         player.sendMessage(Component.text(TownyWaypoints.getInstance().getName() + " reloaded! If you updated waypoints.yml you must do /ta reload aswell."));
+    }
+
+    @Subcommand("set open")
+    @Syntax("set <property> [<value>]")
+    @CommandCompletion("@open_statuses @nothing")
+    @Description("Change which people the plot is open to teleports from.")
+    public static void onSetOpen(Player player, String status)
+    {
+        player.sendMessage("Changing status to " + status);
+    }
+
+    @Subcommand("set spawn")
+    @Syntax("set <property> [<value>]")
+    @Description("Set the block a player gets teleported to on arival for a waypoint plot.")
+    public static void onSetSpawn(Player player)
+    {
+        player.sendMessage("lol");
     }
 
     @Subcommand("travel")

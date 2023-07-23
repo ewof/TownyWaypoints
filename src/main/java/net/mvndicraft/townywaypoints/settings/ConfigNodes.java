@@ -28,7 +28,7 @@ public enum ConfigNodes {
             "# if false, cooldowns are disabled."),
     WAYPOINTS_COOLDOWNS_MAX_COOLDOWN(
             "waypoints.cooldowns.max_cooldown",
-            "30.0",
+            "30",
             "",
             "# The maximum amount of time a players teleport cooldown can be.");
 
