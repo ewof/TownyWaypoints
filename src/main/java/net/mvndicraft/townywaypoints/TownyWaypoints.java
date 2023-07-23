@@ -80,7 +80,7 @@ public class TownyWaypoints extends JavaPlugin
 
       return plots;
     });
-    manager.getCommandCompletions().registerAsyncCompletion("open_statuses", c -> ImmutableList.of(Translatable.of("open_status_all").defaultLocale(), Translatable.of("open_status_allies").translate(), Translatable.of("open_status_nation").translate(), Translatable.of("open_status_town").translate(), Translatable.of("open_status_none").translate()));
+    manager.getCommandCompletions().registerAsyncCompletion("open_statuses", c -> ImmutableList.of(Translatable.of("open_status_all").defaultLocale(), Translatable.of("open_status_allies").defaultLocale(), Translatable.of("open_status_nation").translate(), Translatable.of("open_status_town").translate(), Translatable.of("open_status_none").translate()));
 
     TownyListener townyListener = new TownyListener();
     plugMan.registerEvents(townyListener, instance);
