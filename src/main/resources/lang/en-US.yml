@@ -39,4 +39,6 @@ msg_spawn_set: 'Waypoint spawn set to %s!'
 msg_err_not_in_townblock: 'Not in a valid plot!'
 
 townywaypoints_plot_unnamed: 'Unnamed'
-msg_err_waypoint_spawn_not_set: 'Waypoint spawn not set!'
+msg_err_waypoint_spawn_not_set: 'Waypoint spawn is not set!'
+msg_err_waypoint_spawn_not_safe: 'Waypoint spawn is not safe!'
+townywaypoints_msg_reload: '%s reloaded! If you updated waypoints.yml you must do /ta reload too.'

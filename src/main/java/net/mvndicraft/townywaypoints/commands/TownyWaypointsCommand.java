@@ -9,6 +9,7 @@ import com.palmergames.bukkit.towny.object.Translatable;
 import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 import net.mvndicraft.townywaypoints.settings.Settings;
+import net.mvndicraft.townywaypoints.util.LocationUtil;
 import net.mvndicraft.townywaypoints.util.Messaging;
 import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
 import org.bukkit.Location;
@@ -29,7 +30,7 @@ public class TownyWaypointsCommand extends BaseCommand
     public static void onReload(Player player)
     {
         Settings.loadConfigAndLang();
-        player.sendMessage(Component.text(TownyWaypoints.getInstance().getName() + " reloaded! If you updated waypoints.yml you must do /ta reload aswell."));
+        Messaging.sendMsg(player, Translatable.of("townywaypoints_msg_reload", TownyWaypoints.getInstance().getName()));
     }
 
     @Subcommand("set open")
@@ -99,6 +100,10 @@ public class TownyWaypointsCommand extends BaseCommand
 
         if (loc.getWorld() == null) {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_set"));
+            return;
+        }
+        if (!LocationUtil.isSafe(loc)) {
+            Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_safe"));
             return;
         }
 
