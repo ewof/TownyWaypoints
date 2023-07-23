@@ -62,8 +62,6 @@ public class TownyWaypoints extends JavaPlugin
     });
     manager.getCommandCompletions().registerAsyncCompletion("waypoint_plot_names", c -> {
       Town town = TownyAPI.getInstance().getTown(c.getContextValue(String.class, 1));
-      String _townBlockTypeName = c.getContextValue(String.class, 2);
-      String townBlockTypeName = _townBlockTypeName.substring(0,_townBlockTypeName.length()-1); // this made me sad :(
 
       ArrayList<String> plots = new ArrayList<>();
 
@@ -71,9 +69,9 @@ public class TownyWaypoints extends JavaPlugin
         return plots;
 
       town.getTownBlocks().forEach(townBlock -> {
-        if (townBlock.getType().getName().equals(townBlockTypeName)) {
+        if (townBlock.getType().getName().equals(c.getContextValue(String.class, 2))) {
           if (townBlock.getName().equals("")) {
-            plots.add("NOT_NAMED");
+            plots.add(Translatable.of("townywaypoints_plot_unnamed").defaultLocale());
           } else {
             plots.add(townBlock.getName());
           }
@@ -82,7 +80,7 @@ public class TownyWaypoints extends JavaPlugin
 
       return plots;
     });
-    manager.getCommandCompletions().registerAsyncCompletion("open_statuses", c -> ImmutableList.of(Translatable.of("open_status_all").translate(), Translatable.of("open_status_allies").translate(), Translatable.of("open_status_nation").translate(), Translatable.of("open_status_town").translate(), Translatable.of("open_status_none").translate()));
+    manager.getCommandCompletions().registerAsyncCompletion("open_statuses", c -> ImmutableList.of(Translatable.of("open_status_all").defaultLocale(), Translatable.of("open_status_allies").translate(), Translatable.of("open_status_nation").translate(), Translatable.of("open_status_town").translate(), Translatable.of("open_status_none").translate()));
 
     TownyListener townyListener = new TownyListener();
     plugMan.registerEvents(townyListener, instance);

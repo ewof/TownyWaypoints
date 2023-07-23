@@ -23,6 +23,8 @@ description: >
 # DarkPurple = &9, LightGreen = &a, LightBlue = &b
 # Rose = &c, LightPurple = &d, Yellow = &e, White = &f
 
+townywaypoints_plugin_prefix: '&f[&6TownyWaypoints&f]&r '
+
 msg_err_biome_not_allowed: 'This plot can''t be placed in biome %s!'
 msg_err_max_plots: 'Only %d plot(s) with this type allowed!'
 
@@ -31,3 +33,10 @@ open_status_allies: 'allies'
 open_status_nation: 'nation'
 open_status_town: 'town'
 open_status_none: 'none'
+
+msg_status_set: 'Waypoint status set to %s!'
+msg_spawn_set: 'Waypoint spawn set to %s!'
+msg_err_not_in_townblock: 'Not in a valid plot!'
+
+townywaypoints_plot_unnamed: 'Unnamed'
+msg_err_waypoint_spawn_not_set: 'Waypoint spawn not set!'
