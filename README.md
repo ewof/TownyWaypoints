@@ -42,7 +42,7 @@ waypoints:
 
 `waypoints.restrictions.max_distance` is the maximum number of blocks a player can travel via waypoints. A player cannot travel to a waypoint that is `max_distance` blocks away from their current location. <br/>
 `waypoints.restrictions.cooldown` is the amount of time in seconds a player must  way between waypoint travels. <br/>
-`waypoints.restrictions.peer_to_peer` when set to true means that players must be standing in a waypoint of the same type to teleport to another waypoint, meaning I must be standing in a stable plot to teleport to a stable waypoint.
+`waypoints.restrictions.peer_to_peer` when set to true means that players must be standing in a waypoint of the same type to teleport to another waypoint, meaning I must be standing in a stable plot if I want to travel to another stable waypoint.
 
 ---
 
