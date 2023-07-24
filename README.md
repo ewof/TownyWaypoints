@@ -125,4 +125,12 @@ If you'd like to help translating TownyWaypoints into the available languages or
 
 ---
 
+### Links
+
+- [Hangar](https://hangar.papermc.io/ewof/TownyWaypoints)
+- [Modrinth](https://modrinth.com/plugin/townywaypoints)
+- [Github](https://github.com/ewof/TownyWaypoints)
+
+---
+
 Inspired by [TownyPorts](https://github.com/darthpeti/TownyPorts/)
