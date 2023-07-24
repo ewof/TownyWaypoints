@@ -8,6 +8,7 @@ import com.palmergames.bukkit.towny.object.TownBlock;
 import com.palmergames.bukkit.towny.object.Translatable;
 import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
+import net.mvndicraft.townywaypoints.Waypoint;
 import net.mvndicraft.townywaypoints.settings.Settings;
 import net.mvndicraft.townywaypoints.util.LocationUtil;
 import net.mvndicraft.townywaypoints.util.Messaging;
@@ -46,7 +47,7 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
         }
 
-        TownBlockMetaDataController.setSdf(townBlock, "townywaypoints_status", status);
+        TownBlockMetaDataController.setSdf(townBlock, TownBlockMetaDataController.statusKey, status);
 
         Messaging.sendMsg(player,Translatable.of("msg_status_set",status));
     }
@@ -93,15 +94,20 @@ public class TownyWaypointsCommand extends BaseCommand
             }
         }
 
-        double cost = TownyWaypoints.getWaypoints().get(waypointName).getCost();
-
-        if (TownyWaypoints.getEconomy().getBalance(player) - cost < 0) {
-            Messaging.sendErrorMsg(player,Translatable.of("msg_err_insufficient_funds", cost));
-            return;
-        }
-
         if (townBlock == null)
             return;
+
+        Waypoint waypoint = TownyWaypoints.getWaypoints().get(waypointName);
+        double cost = waypoint.getCost();
+
+        String plotName = townBlock.getName();
+        if (plotName.equals(""))
+            plotName = Translatable.of("townywaypoints_plot_unnamed").defaultLocale();
+
+        if (TownyWaypoints.getEconomy().getBalance(player) - cost < 0) {
+            Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, cost));
+            return;
+        }
 
         Location loc = TownBlockMetaDataController.getSpawn(townBlock);
 
@@ -109,9 +115,12 @@ public class TownyWaypointsCommand extends BaseCommand
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_set"));
             return;
         }
+        final TownBlock finalTownBlock = townBlock;
         TownyWaypoints.getScheduler().runTask(loc, () -> {
             if (!LocationUtil.isSafe(loc)) {
                 Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_safe"));
+            } else if (!TownBlockMetaDataController.hasAccess(finalTownBlock, player)) {
+                Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_insufficient_permission", waypointPlotName));
             } else {
                 TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
                 player.teleportAsync(loc);

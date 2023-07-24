@@ -7,6 +7,8 @@ import com.palmergames.bukkit.towny.exceptions.TownyException;
 import com.palmergames.bukkit.towny.object.*;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 import net.mvndicraft.townywaypoints.Waypoint;
+import net.mvndicraft.townywaypoints.util.Messaging;
+import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -75,15 +77,28 @@ public final class TownyListener implements Listener
     World world = townBlock.getWorld().getBukkitWorld();
     if (world == null)
       return;
-    Player p = event.getResident().getPlayer();
-    if (p == null)
+    Player player = event.getResident().getPlayer();
+    if (player == null)
       return;
-    Location loc = p.getLocation();
 
+   if (!waypoint.getPermission().equals("") && !player.hasPermission(waypoint.getPermission())) {
+     event.setCancelMessage(Translatable.of("msg_err_waypoint_create_insufficient_permission",waypoint.getName()).defaultLocale());
+     event.setCancelled(true);
+     return;
+   }
+
+   if (TownyWaypoints.getEconomy().getBalance(player) - waypoint.getCost() <= 0) {
+     event.setCancelMessage(Translatable.of("msg_err_waypoint_create_insufficient_funds",waypoint.getName(), waypoint.getCost()).defaultLocale());
+     event.setCancelled(true);
+     return;
+   }
+
+    Location loc = player.getLocation();
     String biomeName = loc.getBlock().getBiome().toString();
     if  (waypoint.getAllowedBiomes().size() != 0 && !waypoint.getAllowedBiomes().contains(biomeName)) {
-       event.setCancelMessage(Translatable.of("msg_err_biome_not_allowed",biomeName).defaultLocale());
-       event.setCancelled(true);
+     event.setCancelMessage(Translatable.of("msg_err_biome_not_allowed",biomeName).defaultLocale());
+     event.setCancelled(true);
+     return;
     }
 
     int max = waypoint.getMax();
@@ -91,6 +106,10 @@ public final class TownyListener implements Listener
     if (getPlotTypeCount(townBlock.getTown(), plotTypeName) >= max) {
       event.setCancelMessage(Translatable.of("msg_err_max_plots",max).defaultLocale());
       event.setCancelled(true);
+      return;
     }
+
+    Messaging.sendMsg(player, Translatable.of("msg_spawn_set", loc.toString()));
+    TownBlockMetaDataController.setSpawn(townBlock, player.getLocation());
   }
 }

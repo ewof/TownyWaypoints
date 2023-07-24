@@ -1,14 +1,20 @@
 package net.mvndicraft.townywaypoints.util;
 
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
 import com.palmergames.bukkit.towny.object.metadata.CustomDataField;
 import com.palmergames.bukkit.towny.object.metadata.IntegerDataField;
 import com.palmergames.bukkit.towny.object.metadata.StringDataField;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class TownBlockMetaDataController {
 
+    public static final String statusKey = "townywaypoints_status";
     private static final String spawnWorldKey = "townywaypoints_spawn_world";
     private static final String spawnXKey = "townywaypoints_spawn_x";
     private static final String spawnYKey = "townywaypoints_spawn_y";
@@ -77,5 +83,61 @@ public class TownBlockMetaDataController {
     public static Location getSpawn(TownBlock townBlock)
     {
         return new Location(Bukkit.getServer().getWorld(getSdf(townBlock, spawnWorldKey)), getIdf(townBlock, spawnXKey), getIdf(townBlock, spawnYKey), getIdf(townBlock, spawnZKey));
+    }
+
+    public static boolean hasAccess(TownBlock townBlock, Player player) {
+        String status = getSdf(townBlock, statusKey);
+        Resident res = TownyAPI.getInstance().getResident(player);
+
+        if (res == null)
+            return false;
+
+        switch (status) {
+            case "allies" -> {
+                Nation nation = res.getNationOrNull();
+                Town destTown = townBlock.getTownOrNull();
+                if (destTown == null)
+                    return false;
+                Nation destNation = destTown.getNationOrNull();
+                if (nation == null || destNation == null)
+                    return false;
+                return nation.hasAlly(destNation);
+            }
+            case "nation" -> {
+                Nation nation = res.getNationOrNull();
+                Town destTown = townBlock.getTownOrNull();
+                if (destTown == null)
+                    return false;
+                Nation destNation = destTown.getNationOrNull();
+                if (nation == null || destNation == null)
+                    return false;
+                return nation.equals(destNation);
+            }
+            case "town" -> {
+                Town town = res.getTownOrNull();
+                Town destTown = townBlock.getTownOrNull();
+                if (town == null || destTown == null)
+                    return false;
+                return town.equals(destTown);
+            }
+            case "none" -> {
+                return false;
+            }
+            default -> {
+                return true;
+            }
+        }
+    }
+
+    public static int numWaypointsWithAccess(Town town, Player player, String waypointName)
+    {
+        int count = 0;
+
+        for (TownBlock townBlock: town.getTownBlocks()) {
+            if (townBlock.getType().getName().equals(waypointName) && hasAccess(townBlock, player))
+                count++;
+        }
+
+        return count;
     }
 }

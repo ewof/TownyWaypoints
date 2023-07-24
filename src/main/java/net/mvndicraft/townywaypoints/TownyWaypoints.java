@@ -10,10 +10,12 @@ import net.milkbowl.vault.economy.Economy;
 import net.mvndicraft.townywaypoints.commands.TownyWaypointsCommand;
 import net.mvndicraft.townywaypoints.listeners.TownyListener;
 import net.mvndicraft.townywaypoints.settings.Settings;
+import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,14 +51,16 @@ public class TownyWaypoints extends JavaPlugin
     PaperCommandManager manager = new PaperCommandManager(instance);
     manager.registerCommand(new TownyWaypointsCommand());
     manager.getCommandCompletions().registerAsyncCompletion("waypointed_towns", c -> {
+      Player player = c.getContextValue(Player.class, 0);
       ArrayList<String> towns = new ArrayList<>();
       TownyAPI.getInstance().getTowns().forEach(town -> getWaypoints().keySet().forEach(waypoint -> {
-       if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockTypeHandler.getType(waypoint), TownBlockTypeCache.CacheType.ALL) > 0)
+       if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockTypeHandler.getType(waypoint), TownBlockTypeCache.CacheType.ALL) > 0 && TownBlockMetaDataController.numWaypointsWithAccess(town, player, waypoint) > 0)
          towns.add(town.getName());
       }));
      return towns;
     });
     manager.getCommandCompletions().registerAsyncCompletion("town_waypoints", c -> {
+      Player player = c.getContextValue(Player.class, 0);
       Town town = TownyAPI.getInstance().getTown(c.getContextValue(String.class, 1));
       ArrayList<String> waypoints = new ArrayList<>();
 
@@ -64,12 +68,13 @@ public class TownyWaypoints extends JavaPlugin
         return waypoints;
 
       getWaypoints().keySet().forEach(waypoint -> {
-        if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockTypeHandler.getType(waypoint), TownBlockTypeCache.CacheType.ALL) > 0)
+        if (town.getTownBlockTypeCache().getNumTownBlocks(TownBlockTypeHandler.getType(waypoint), TownBlockTypeCache.CacheType.ALL) > 0 && TownBlockMetaDataController.numWaypointsWithAccess(town, player, waypoint) > 0)
           waypoints.add(waypoint);
       });
      return waypoints;
     });
     manager.getCommandCompletions().registerAsyncCompletion("waypoint_plot_names", c -> {
+      Player player = c.getContextValue(Player.class, 0);
       Town town = TownyAPI.getInstance().getTown(c.getContextValue(String.class, 1));
 
       ArrayList<String> plots = new ArrayList<>();
@@ -78,7 +83,7 @@ public class TownyWaypoints extends JavaPlugin
         return plots;
 
       town.getTownBlocks().forEach(townBlock -> {
-        if (townBlock.getType().getName().equals(c.getContextValue(String.class, 2))) {
+        if (townBlock.getType().getName().equals(c.getContextValue(String.class, 2)) && TownBlockMetaDataController.hasAccess(townBlock, player)) {
           if (townBlock.getName().equals("")) {
             plots.add(Translatable.of("townywaypoints_plot_unnamed").defaultLocale());
           } else {
