@@ -21,13 +21,13 @@ public enum ConfigNodes {
     ""),
     WAYPOINTS_RESTRICTIONS_MAX_DISTANCE(
             "waypoints.restrictions.max_distance",
-            "5000",
+            "2700",
             "",
             "# The maximum number of blocks a player can travel between waypoints.",
             "# Disabled with value of -1"),
     WAYPOINTS_RESTRICTIONS_COOLDOWN(
             "waypoints.restrictions.cooldown",
-            "1800",
+            "300",
             "",
             "# The amount of seconds a player must wait between waypoint travels."),
     WAYPOINTS_RESTRICTIONS_PEER_TO_PEER(
