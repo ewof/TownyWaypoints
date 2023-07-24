@@ -34,10 +34,10 @@ waypoints:
 
     # The maximum number of blocks a player can travel between waypoints.
     # Disabled with value of -1
-    max_distance: '5000'
+    max_distance: '2700'
 
     # The amount of seconds a player must wait between waypoint travels.
-    cooldown: '1800'
+    cooldown: '300'
 
     # If true players can only teleport from one waypoint type to another.
     peer_to_peer: 'true'
@@ -57,16 +57,31 @@ In `waypoints.yml` you define different types of waypoints.
 stable:
   name: "stable"
   mapKey: 'S' # A single character to be shown on the /towny map and /towny map hud.
-  cost: 100.0 # Cost to travel to/create the waypoint.
+  cost: 4500.0 # Cost to travel to/create the waypoint.
   max: 1 # Max number of plots of this type allowed per town.
   permission: townywaypoints.landpoint.stable # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
+  allowed_biomes:
+    - FOREST
+    - PLAINS
+    - SUNFLOWER_PLAINS
+    - TAIGA
+    - BIRCH_FOREST
+    - SAVANNA
+    - WINDSWEPT_FOREST
+    - WINDSWEPT_SAVANNA
 seaport:
   name: "seaport"
   mapKey: 'P' # A single character to be shown on the /towny map and /towny map hud.
-  cost: 200.0 # Cost to travel to/create the waypoint.
-  max: 2 # Max number of plots of this type allowed per town.
+  cost: 2500.0 # Cost to travel to/create the waypoint.
+  max: 1 # Max number of plots of this type allowed per town.
+  permission: townywaypoints.seapoint.seaport # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
   allowed_biomes: # List of biomes this plot type can be created on. If it's not provided the plot type can be created on any biome.
-    - BEACH
+    - COLD_OCEAN
+    - DEEP_COLD_OCEAN
+    - DEEP_OCEAN
+    - LUKEWARM_OCEAN
+    - OCEAN
+    - WARM_OCEAN
 ```
 
 A `waypoints.yml` like this means two plot types will be available to players, stables and seaports.
