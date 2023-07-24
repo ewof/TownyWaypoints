@@ -57,10 +57,11 @@ In `waypoints.yml` you define different types of waypoints.
 stable:
   name: "stable"
   mapKey: 'S' # A single character to be shown on the /towny map and /towny map hud.
-  cost: 4500.0 # Cost to travel to/create the waypoint.
+  cost: 4500.0 # Cost to create the waypoint.
+  travel_cost: 450 # Cost to travel to waypoint.
   max: 1 # Max number of plots of this type allowed per town.
   permission: townywaypoints.landpoint.stable # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
-  allowed_biomes:
+  allowed_biomes:  # List of biomes this plot type can be created on. If it's not provided the plot type can be created on any biome.
     - FOREST
     - PLAINS
     - SUNFLOWER_PLAINS
@@ -72,7 +73,8 @@ stable:
 seaport:
   name: "seaport"
   mapKey: 'P' # A single character to be shown on the /towny map and /towny map hud.
-  cost: 2500.0 # Cost to travel to/create the waypoint.
+  cost: 2500.0 # Cost to create the waypoint.
+  travel_cost: 250 # Cost to travel to waypoint.
   max: 1 # Max number of plots of this type allowed per town.
   permission: townywaypoints.seapoint.seaport # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
   allowed_biomes: # List of biomes this plot type can be created on. If it's not provided the plot type can be created on any biome.
@@ -91,14 +93,14 @@ Stables
 - Cost $100 to travel to/create
 - Are limited to 2 per town
 - Can be created only by players with the `townywaypoints.landpoint.stable` permission
-- Can be created in any biome
+- Can be created in most land biomes
 
 Seaports
 - Have a map key of `P`
 - Cost $200 to travel to/create
 - Are limited to 2 per town
 - Can be created by all players
-- Can only be created in `BEACH` biomes
+- Can only be created in beach and ocean biomes
 
 A player designates a plot as a waypoint by doing `/plot set <waypoint type name>`. <br/>
 They can change things about the waypoint with `/twp set <open> [value]`. <br/>
