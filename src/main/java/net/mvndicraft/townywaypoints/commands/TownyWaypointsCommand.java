@@ -3,10 +3,7 @@ package net.mvndicraft.townywaypoints.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.object.Resident;
-import com.palmergames.bukkit.towny.object.Town;
-import com.palmergames.bukkit.towny.object.TownBlock;
-import com.palmergames.bukkit.towny.object.Translatable;
+import com.palmergames.bukkit.towny.object.*;
 import com.palmergames.bukkit.towny.tasks.CooldownTimerTask;
 import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
@@ -28,7 +25,7 @@ public class TownyWaypointsCommand extends BaseCommand
         player.sendMessage(Component.text(TownyWaypoints.getInstance().toString()));
     }
 
-    @Subcommand("reload") @CommandPermission("townywaypoints.admin")
+    @Subcommand("reload") @CommandPermission(TownyWaypoints.ADMIN_PERMISSION)
     @Description("Reloads the plugin config and locales.")
     public static void onReload(Player player)
     {
@@ -118,18 +115,26 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
         }
 
-        if (!player.hasPermission("townywaypoints.admin") && (TownyWaypointsSettings.getMaxDistance() != -1 && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
+        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && (TownyWaypointsSettings.getMaxDistance() != -1 && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(), TownyWaypointsSettings.getMaxDistance()));
             return;
         }
 
         TownyAPI townyAPI = TownyAPI.getInstance();
+
+        TownBlock playerTownBlock = townyAPI.getTownBlock(player);
+
+        if (playerTownBlock == null || (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && TownyWaypointsSettings.getPeerToPeer() && !playerTownBlock.getType().getName().equals(waypointName))) {
+            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_p2p", waypointName, waypointName));
+            return;
+        }
+
         Resident res = townyAPI.getResident(player);
         if (res == null)
             return;
 
         int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
-        if (player.hasPermission("townywaypoints.admin") || cooldown == 0) {
+        if (player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) || cooldown == 0) {
             TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
             Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
             townyAPI.requestTeleport(player, loc);

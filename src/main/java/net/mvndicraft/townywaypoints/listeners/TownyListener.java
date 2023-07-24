@@ -66,7 +66,7 @@ public final class TownyListener implements Listener
   }
 
   @EventHandler
-  public void onPlotChangeTypeEvent(PlotPreChangeTypeEvent event) throws NotRegisteredException {
+  public void onPlotPreChangeTypeEvent(PlotPreChangeTypeEvent event) throws NotRegisteredException {
     TownBlock townBlock = event.getTownBlock();
     String plotTypeName = event.getNewType().getName();
 

@@ -10,4 +10,9 @@ public class TownyWaypointsSettings {
     {
         return Settings.getInt(ConfigNodes.WAYPOINTS_RESTRICTIONS_COOLDOWN);
     }
+
+    public static  boolean getPeerToPeer()
+    {
+        return Settings.getBoolean(ConfigNodes.WAYPOINTS_RESTRICTIONS_PEER_TO_PEER);
+    }
 }

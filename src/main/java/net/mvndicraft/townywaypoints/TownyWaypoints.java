@@ -30,6 +30,8 @@ public class TownyWaypoints extends JavaPlugin
   protected static final ConcurrentHashMap<String, Waypoint> waypoints = new ConcurrentHashMap<>();
   private final String biomeKey = "allowed_biomes";
 
+  public static final String ADMIN_PERMISSION = "townywaypoints.admin";
+
   @Override
   public void onEnable()
   {

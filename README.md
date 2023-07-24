@@ -17,28 +17,32 @@ Default config:
 version: '1.0'
 # The language file you wish to use.
 language: en_US.yml
-  
+
 waypoints:
-  
-  
+
+
   ############################################################
   # +------------------------------------------------------+ #
   # |                   Restrictions                       | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   restrictions:
-  
+
     # The maximum number of blocks a player can travel between waypoints.
     # Disabled with value of -1
     max_distance: '5000'
-  
+
     # The amount of minutes a player must wait between waypoint travels.
     cooldown: '1800'
+
+    # If true players can only teleport from one waypoint type to another.
+    peer_to_peer: 'true'
 ```
 
-`waypoints.restrictions.max_distance` is the maximum number of blocks a player can travel via waypoints. A player cannot travel to a waypoint that is `max_distance` blocks away from their current location.
-`waypoints.cooldown` is the amount of time in seconds a player must  way between waypoint travels.
+`waypoints.restrictions.max_distance` is the maximum number of blocks a player can travel via waypoints. A player cannot travel to a waypoint that is `max_distance` blocks away from their current location. <br/>
+`waypoints.restrictions.cooldown` is the amount of time in seconds a player must  way between waypoint travels. <br/>
+`waypoints.restrictions.peer_to_peer` when set to true means that players must be standing in a waypoint of the same type to teleport to another waypoint, meaning I must be standing in a stable plot to teleport to a stable waypoint.
 
 ---
 
@@ -79,7 +83,7 @@ Seaports
 - Can only be created in `BEACH` biomes
 
 A player designates a plot as a waypoint by doing `/plot set <waypoint type name>`. <br/>
-They can change things about the waypoint with `/twp set <toggle> <value>`. <br/>
+They can change things about the waypoint with `/twp set <open> [value]`. <br/>
 Waypoints travel can be open to everyone or limited to allies, nation members, town members, or noone (closed)  with `/twp set open <status>`. <br/>
 The block a player gets teleported to on traveling to a waypoint can be changed with `/twp set spawn` a waypoints default spawn is where the player was standing when they designated the plot as a waypoint.
 
