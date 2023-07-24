@@ -36,3 +36,4 @@ msg_err_waypoint_create_insufficient_permission: 'You do not have permission to 
 msg_err_waypoint_travel_too_far: '%s is too far away! Maximum travel distance is %d.'
 msg_waypoint_travel_warmup: 'Waiting to teleport...'
 msg_err_waypoint_travel_cooldown: 'You must wait %ds before traveling to %s!'
+msg_err_waypoint_p2p: 'You must be standing in a %s waypoint plot to travel to another %s waypoint!'
