@@ -1,5 +1,7 @@
 # TownyWaypoints
 
+![townywaypoints](https://github.com/ewof/TownyWaypoints/assets/26354814/876e138d-b011-4286-99bd-06f14cf4f86a)
+
 Configurable plot types for Towny that players can teleport between. <br/>
 Requires [Paper](https://github.com/PaperMC/Paper) or a fork of it. Supports [Folia](https://github.com/PaperMC/Folia). It will not work on Bukkit or Spigot.
 
