@@ -72,14 +72,14 @@ Stables
 - Have a map key of `S`
 - Cost $100 to travel to
 - Are limited to 2 per town
-- Players need the `townywaypoints.landpoint.stable` permission node to set a plot to this type
+- Can be created only by players with the `townywaypoints.landpoint.stable` permission
 - Can be created in any biome
 
 Seaports
 - Have a map key of `P`
-- cost $200 to travel to
+- Cost $200 to travel to
 - Are limited to 2 per town
-- Any player can set a plot to this type
+- Can be created by all players
 - Can only be created in `BEACH` biomes
 
 A player designates a plot as a waypoint by doing `/plot set <waypoint type name>`. <br/>
