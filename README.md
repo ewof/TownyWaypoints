@@ -7,7 +7,8 @@ Requires [Paper](https://github.com/PaperMC/Paper) or a fork of it. Supports [Fo
 
 ### Traveling
 
-Players can travel between different waypoints with `/twp travel <town> <waypoint> <plot name>`
+Players can travel between different waypoints with `/twp travel <town> <waypoint> <plot name>` <br/>
+When players teleport it uses Townys warmups, so if you have a teleport warmup in Towny / make movement or damage cancel the warmup those will apply when players attempt to travel to waypoints.
 
 ---
 
@@ -93,7 +94,9 @@ The block a player gets teleported to on traveling to a waypoint can be changed 
 
 ### Permission nodes
 
-- `townywaypoints.admin` Allows use of the reload command and disables cooldown/distance/p2p check on travel.
+- `townywaypoints.admin` Allows use of the reload command and disables all permission checks.
+- Towny's `towny.command.town.set.spawn` permission node is needed for a player to set the spawn of a waypoint.
+- Towny's `towny.command.town.toggle.public` permission node is needed for a player to set the open status of a waypoint.
 
 ---
 

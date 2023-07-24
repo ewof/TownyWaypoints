@@ -14,5 +14,5 @@ dependencies:
       required: true
 permissions:
   townywaypoints.admin:
-    description: "Allows use of the reload command and disables cooldown/distance/p2p check on travel."
+    description: "Allows use of the reload command and disables all permission checks."
     default: op
