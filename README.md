@@ -54,13 +54,13 @@ In `waypoints.yml` you define different types of waypoints.
 stable:
   name: "stable"
   mapKey: 'S' # A single character to be shown on the /towny map and /towny map hud.
-  cost: 100.0 # A cost that will be paid to set the plot type.
+  cost: 100.0 # Cost to trave to/create the waypoint.
   max: 1 # Max number of plots of this type allowed per town.
   permission: townywaypoints.landpoint.stable # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
 seaport:
   name: "seaport"
   mapKey: 'P' # A single character to be shown on the /towny map and /towny map hud.
-  cost: 200.0 # A cost that will be paid to set the plot type.
+  cost: 200.0 # Cost to trave to/create the waypoint.
   max: 2 # Max number of plots of this type allowed per town.
   allowed_biomes: # List of biomes this plot type can be created on. If it's not provided the plot type can be created on any biome.
     - BEACH
@@ -70,14 +70,14 @@ A `waypoints.yml` like this means two plot types will be available to players, s
 
 Stables
 - Have a map key of `S`
-- Cost $100 to travel to
+- Cost $100 to travel to/create
 - Are limited to 2 per town
 - Can be created only by players with the `townywaypoints.landpoint.stable` permission
 - Can be created in any biome
 
 Seaports
 - Have a map key of `P`
-- Cost $200 to travel to
+- Cost $200 to travel to/create
 - Are limited to 2 per town
 - Can be created by all players
 - Can only be created in `BEACH` biomes
