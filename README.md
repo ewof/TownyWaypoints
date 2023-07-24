@@ -33,7 +33,7 @@ waypoints:
     # Disabled with value of -1
     max_distance: '5000'
 
-    # The amount of minutes a player must wait between waypoint travels.
+    # The amount of seconds a player must wait between waypoint travels.
     cooldown: '1800'
 
     # If true players can only teleport from one waypoint type to another.

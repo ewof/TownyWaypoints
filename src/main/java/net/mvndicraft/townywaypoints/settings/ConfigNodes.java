@@ -29,7 +29,7 @@ public enum ConfigNodes {
             "waypoints.restrictions.cooldown",
             "1800",
             "",
-            "# The amount of minutes a player must wait between waypoint travels."),
+            "# The amount of seconds a player must wait between waypoint travels."),
     WAYPOINTS_RESTRICTIONS_PEER_TO_PEER(
             "waypoints.restrictions.peer_to_peer",
             "true",
