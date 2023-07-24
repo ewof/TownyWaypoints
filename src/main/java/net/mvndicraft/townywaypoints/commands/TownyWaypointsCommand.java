@@ -109,8 +109,6 @@ public class TownyWaypointsCommand extends BaseCommand
         if (TownyWaypoints.getEconomy().getBalance(player) - cost < 0) {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, cost));
             return;
-        } else {
-            TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
         }
 
         Location loc = TownBlockMetaDataController.getSpawn(townBlock);
@@ -120,7 +118,7 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
         }
 
-        if (!player.hasPermission("townywaypoints.admin") && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance()) {
+        if (!player.hasPermission("townywaypoints.admin") && (TownyWaypointsSettings.getMaxDistance() != -1 && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(), TownyWaypointsSettings.getMaxDistance()));
             return;
         }
@@ -132,6 +130,7 @@ public class TownyWaypointsCommand extends BaseCommand
 
         int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
         if (player.hasPermission("townywaypoints.admin") || cooldown == 0) {
+            TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
             Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
             townyAPI.requestTeleport(player, loc);
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
