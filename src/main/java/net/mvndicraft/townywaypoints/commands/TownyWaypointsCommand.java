@@ -105,14 +105,14 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
 
         Waypoint waypoint = TownyWaypoints.getWaypoints().get(waypointName);
-        double cost = waypoint.getCost();
+        double travelcost = waypoint.getTravelCost();
 
         String plotName = townBlock.getName();
         if (plotName.equals(""))
             plotName = Translatable.of("townywaypoints_plot_unnamed").defaultLocale();
 
-        if (TownyWaypoints.getEconomy().getBalance(player) - cost < 0) {
-            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, cost));
+        if (TownyWaypoints.getEconomy().getBalance(player) - travelcost < 0) {
+            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, travelcost));
             return;
         }
 
@@ -143,7 +143,7 @@ public class TownyWaypointsCommand extends BaseCommand
 
         int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
         if (player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) || cooldown == 0) {
-            TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
+            TownyWaypoints.getEconomy().withdrawPlayer(player, travelcost);
             Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
             townyAPI.requestTeleport(player, loc);
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))

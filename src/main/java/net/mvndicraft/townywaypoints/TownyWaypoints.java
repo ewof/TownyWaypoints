@@ -168,6 +168,7 @@ public class TownyWaypoints extends JavaPlugin
       config.getString("name"),
       config.getString("mapKey"),
       config.getDouble("cost"),
+      config.getDouble("travel_cost"),
       config.getInt("max"),
       config.getBoolean("sea"),
       config.getString("permission"),

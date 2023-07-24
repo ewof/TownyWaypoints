@@ -6,16 +6,18 @@ public final class Waypoint {
     private final String name;
     private final String mapKey;
     private final double cost;
+    private final double travelCost;
     private final int max;
     private final boolean sea;
     private final String permission;
     private final List<String> allowedBiomes;
 
-    public Waypoint(String name, String mapKey, double cost, int max, boolean sea, String permission, List<String> allowedBiomes)
+    public Waypoint(String name, String mapKey, double cost, double travelCost, int max, boolean sea, String permission, List<String> allowedBiomes)
     {
         this.name = name;
         this.mapKey = mapKey;
         this.cost = cost;
+        this.travelCost = travelCost;
         this.max = max;
         this.sea = sea;
         this.permission = permission;
@@ -36,6 +38,8 @@ public final class Waypoint {
     {
         return cost;
     }
+
+    public double getTravelCost() { return travelCost; }
 
     public int getMax()
     {
