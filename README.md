@@ -97,7 +97,7 @@ The block a player gets teleported to on traveling to a waypoint can be changed 
 
 ### Translations
 
-If you'd like to help translating TownyWaypoints into the available languages or add entirely new languages, [we're on Crowdin!](https://crowdin.com/project/townywaypoints)
+If you'd like to help translating TownyWaypoints into the available languages or add entirely new languages, [we're on Crowdin](https://crowdin.com/project/townywaypoints)!
 
 [![Crowdin](https://badges.crowdin.net/townywaypoints/localized.svg)](https://crowdin.com/project/townywaypoints)
 
