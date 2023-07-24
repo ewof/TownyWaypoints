@@ -120,7 +120,7 @@ public class TownyWaypoints extends JavaPlugin
         economy = rsp.getProvider();
       return true;
     } else {
-      getLogger().severe("Vault not found. Please download Vault to use MvndiHunters.");
+      getLogger().severe("Vault not found. Please download Vault to use TownyWaypoints.");
       return false;
     }
   }
