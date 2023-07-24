@@ -24,7 +24,7 @@ public enum ConfigNodes {
             "waypoints.restrictions.max_distance",
             "5000",
             "",
-            "# If the maximum number of blocks a player can travel between waypoints.",
+            "# The maximum number of blocks a player can travel between waypoints.",
             "# Disabled with value of -1"),
     WAYPOINTS_RESTRICTIONS_COOLDOWN(
             "waypoints.restrictions.cooldown",
