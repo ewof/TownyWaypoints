@@ -1,6 +1,6 @@
 # TownyWaypoints
 
-Configurable plot types for Towny that players can teleport between
+Configurable plot types for Towny that players can teleport between.
 
 ### Traveling
 
