@@ -9,34 +9,34 @@ public enum ConfigNodes {
             "en_US.yml",
             "# The language file you wish to use."),
     WAYPOINTS("waypoints","",""),
-    WAYPOINTS_COOLDOWNS(
-            "waypoints.cooldowns",
+    WAYPOINTS_RESTRICTIONS(
+            "waypoints.restrictions",
             "",
             "",
             "",
             "############################################################",
             "# +------------------------------------------------------+ #",
-            "# |                   Cooldown settings                  | #",
+            "# |                   Restrictions                       | #",
             "# +------------------------------------------------------+ #",
             "############################################################",
     ""),
-    WAYPOINTS_COOLDOWNS_ENABLED(
-            "waypoints.cooldowns.enabled",
-            "true",
+    WAYPOINTS_RESTRICTIONS_MAX_DISTANCE(
+            "waypoints.restrictions.max_distance",
+            "5000",
             "",
-            "# If true, cooldowns are enabled.",
-            "# if false, cooldowns are disabled."),
-    WAYPOINTS_COOLDOWNS_MAX_COOLDOWN(
-            "waypoints.cooldowns.max_cooldown",
-            "30",
+            "# If the maximum number of blocks a player can travel between waypoints."),
+    WAYPOINTS_RESTRICTIONS_COOLDOWN(
+            "waypoints.restrictions.cooldown",
+            "1800",
             "",
-            "# The maximum amount of time a players teleport cooldown can be.");
+            "# The amount of minutes a player must wait between waypoint travels.");
 
     private final String Root;
     private final String Default;
     private final String[] comments;
 
-    ConfigNodes(String root, String def, String... comments) {
+    ConfigNodes(String root, String def, String... comments)
+    {
 
         this.Root = root;
         this.Default = def;
@@ -48,7 +48,8 @@ public enum ConfigNodes {
      *
      * @return The root for a config option
      */
-    public String getRoot() {
+    public String getRoot()
+    {
 
         return Root;
     }
@@ -58,7 +59,8 @@ public enum ConfigNodes {
      *
      * @return The default value for a config path
      */
-    public String getDefault() {
+    public String getDefault()
+    {
 
         return Default;
     }
@@ -68,8 +70,8 @@ public enum ConfigNodes {
      *
      * @return The comments for a config path
      */
-    public String[] getComments() {
-
+    public String[] getComments()
+    {
         if (comments != null) {
             return comments;
         }

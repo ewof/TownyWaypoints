@@ -21,12 +21,10 @@ dependencies {
   compileOnly("com.palmergames.bukkit.towny:towny:0.99.5.0")
   compileOnly("io.github.townyadvanced.commentedconfiguration:CommentedConfiguration:1.0.0")
   compileOnly("com.github.MilkBowl:VaultAPI:1.7")
-  implementation("com.github.Anon8281:UniversalScheduler:0.1.5")
   implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
-  relocate("com.github.Anon8281.universalScheduler","net.mvndicraft.townywaypoints.universalScheduler")
   relocate("co.aikar.commands","net.mvndicraft.townywaypoints.acf")
   relocate("co.aikar.locales","net.mvndicraft.townywaypoints.locales")
 }

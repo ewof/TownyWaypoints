@@ -3,14 +3,16 @@ package net.mvndicraft.townywaypoints.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
 import com.palmergames.bukkit.towny.object.Translatable;
+import com.palmergames.bukkit.towny.tasks.CooldownTimerTask;
 import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 import net.mvndicraft.townywaypoints.Waypoint;
 import net.mvndicraft.townywaypoints.settings.Settings;
-import net.mvndicraft.townywaypoints.util.LocationUtil;
+import net.mvndicraft.townywaypoints.settings.TownyWaypointsSettings;
 import net.mvndicraft.townywaypoints.util.Messaging;
 import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
 import org.bukkit.Location;
@@ -107,6 +109,8 @@ public class TownyWaypointsCommand extends BaseCommand
         if (TownyWaypoints.getEconomy().getBalance(player) - cost < 0) {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, cost));
             return;
+        } else {
+            TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
         }
 
         Location loc = TownBlockMetaDataController.getSpawn(townBlock);
@@ -115,16 +119,27 @@ public class TownyWaypointsCommand extends BaseCommand
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_set"));
             return;
         }
-        final TownBlock finalTownBlock = townBlock;
-        TownyWaypoints.getScheduler().runTask(loc, () -> {
-            if (!LocationUtil.isSafe(loc)) {
-                Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_spawn_not_safe"));
-            } else if (!TownBlockMetaDataController.hasAccess(finalTownBlock, player)) {
-                Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_insufficient_permission", waypointPlotName));
-            } else {
-                TownyWaypoints.getEconomy().withdrawPlayer(player, cost);
-                player.teleportAsync(loc);
-            }
-        });
+
+        if (player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance()) {
+            Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(), TownyWaypointsSettings.getMaxDistance()));
+            return;
+        }
+
+        TownyAPI townyAPI = TownyAPI.getInstance();
+        Resident res = townyAPI.getResident(player);
+        if (res == null)
+            return;
+
+
+        Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
+
+        int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
+        if (TownyWaypointsSettings.getCooldown() > 0 && cooldown == 0) {
+            townyAPI.requestTeleport(player, loc);
+            CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
+        } else {
+            Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_cooldown", cooldown, townBlock.getName()));
+        }
+
     }
 }

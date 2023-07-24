@@ -1,13 +1,13 @@
 package net.mvndicraft.townywaypoints.settings;
 
 public class TownyWaypointsSettings {
-    public static boolean getCooldownsEnabled()
+    public static int getMaxDistance()
     {
-        return Settings.getBoolean(ConfigNodes.WAYPOINTS_COOLDOWNS_ENABLED);
+        return Settings.getInt(ConfigNodes.WAYPOINTS_RESTRICTIONS_MAX_DISTANCE);
     }
 
-    public static int getMaxCooldown()
+    public static int getCooldown()
     {
-        return Settings.getInt(ConfigNodes.WAYPOINTS_COOLDOWNS_MAX_COOLDOWN);
+        return Settings.getInt(ConfigNodes.WAYPOINTS_RESTRICTIONS_COOLDOWN);
     }
 }

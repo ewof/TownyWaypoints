@@ -1,8 +1,6 @@
 package net.mvndicraft.townywaypoints;
 
 import co.aikar.commands.PaperCommandManager;
-import com.github.Anon8281.universalScheduler.UniversalScheduler;
-import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import com.google.common.collect.ImmutableList;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.*;
@@ -28,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TownyWaypoints extends JavaPlugin
 {
   private static TownyWaypoints instance;
-  private static TaskScheduler scheduler;
   private static Economy economy;
   protected static final ConcurrentHashMap<String, Waypoint> waypoints = new ConcurrentHashMap<>();
   private final String biomeKey = "allowed_biomes";
@@ -37,8 +34,6 @@ public class TownyWaypoints extends JavaPlugin
   public void onEnable()
   {
     PluginManager plugMan = Bukkit.getPluginManager();
-
-    scheduler = UniversalScheduler.getScheduler(instance);
 
     if(!setupEconomy()) {
       getLogger().severe("Disabled due to no Vault dependency found!");
@@ -131,11 +126,6 @@ public class TownyWaypoints extends JavaPlugin
   public static TownyWaypoints getInstance()
   {
     return instance;
-  }
-
-  public static TaskScheduler getScheduler()
-  {
-    return scheduler;
   }
 
   public static Economy getEconomy()
