@@ -12,3 +12,7 @@ dependencies:
     Vault:
       load: BEFORE
       required: true
+permissions:
+  townywaypoints.admin:
+    description: "Allows use of the reload command and disables cooldown/distance check on travel."
+    default: op

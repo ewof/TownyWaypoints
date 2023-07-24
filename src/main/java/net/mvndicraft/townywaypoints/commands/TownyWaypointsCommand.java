@@ -120,7 +120,7 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
         }
 
-        if (player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance()) {
+        if (!player.hasPermission("townywaypoints.admin") && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance()) {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(), TownyWaypointsSettings.getMaxDistance()));
             return;
         }
@@ -130,16 +130,14 @@ public class TownyWaypointsCommand extends BaseCommand
         if (res == null)
             return;
 
-
-        Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
-
         int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
-        if (TownyWaypointsSettings.getCooldown() > 0 && cooldown == 0) {
+        if (player.hasPermission("townywaypoints.admin") || cooldown == 0) {
+            Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
             townyAPI.requestTeleport(player, loc);
-            CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
+            if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
+                CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
         } else {
             Messaging.sendErrorMsg(player,Translatable.of("msg_err_waypoint_travel_cooldown", cooldown, townBlock.getName()));
         }
-
     }
 }
