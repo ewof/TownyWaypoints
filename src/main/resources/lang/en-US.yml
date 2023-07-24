@@ -4,40 +4,27 @@ language: english
 author: ewof
 website: 'https://mvndicraft.net/'
 description: >
-  Language file for all game messages.  Do not alter this file.
-  If you wish to change any of the entries, make a copy named something else.
-  Alternate language files can be enabled by altering the
-  [language] entry in config.yml
-#
-#
-#         You MUST retain spacing in the texts.
-#  If a text begins or ends with a space, it must remain that way.
-#
-#
-#       %s = data to be supplied by the plugin.
-
-# Text colouring
-# --------------
-# Black = &0, Navy = &1, Green = &2, Blue = &3, Red = &4
-# Purple = &5, Gold = &6, LightGray = &7, Gray = &8
-# DarkPurple = &9, LightGreen = &a, LightBlue = &b
-# Rose = &c, LightPurple = &d, Yellow = &e, White = &f
-
+  Language file for all game messages.  Do not alter this file. If you wish to change any of the entries, make a copy named something else. Alternate language files can be enabled by altering the [language] entry in config.yml
+#You MUST retain spacing in the texts.
+#If a text begins or ends with a space, it must remain that way.
+#%s = data to be supplied by the plugin.
+#Text colouring
+#--------------
+#Black = &0, Navy = &1, Green = &2, Blue = &3, Red = &4
+#Purple = &5, Gold = &6, LightGray = &7, Gray = &8
+#DarkPurple = &9, LightGreen = &a, LightBlue = &b
+#Rose = &c, LightPurple = &d, Yellow = &e, White = &f
 townywaypoints_plugin_prefix: '&f[&6TownyWaypoints&f]&r '
-
 msg_err_biome_not_allowed: 'This plot can''t be placed in biome %s!'
 msg_err_max_plots: 'Only %d plot(s) with this type allowed!'
-
 open_status_all: 'all'
 open_status_allies: 'allies'
 open_status_nation: 'nation'
 open_status_town: 'town'
 open_status_none: 'none'
-
 msg_status_set: 'Waypoint status set to %s!'
 msg_spawn_set: 'Waypoint spawn set to %s!'
 msg_err_not_in_townblock: 'Not in a valid plot!'
-
 townywaypoints_plot_unnamed: 'Unnamed'
 msg_err_waypoint_spawn_not_set: 'Waypoint spawn is not set!'
 msg_err_waypoint_spawn_not_safe: 'Waypoint spawn is not safe!'
