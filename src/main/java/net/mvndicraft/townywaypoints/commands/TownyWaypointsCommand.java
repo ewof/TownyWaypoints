@@ -111,7 +111,7 @@ public class TownyWaypointsCommand extends BaseCommand
         if (plotName.equals(""))
             plotName = Translatable.of("townywaypoints_plot_unnamed").defaultLocale();
 
-        if (TownyWaypoints.getEconomy().getBalance(player) - travelcost < 0) {
+        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && TownyWaypoints.getEconomy().getBalance(player) - travelcost < 0) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, travelcost));
             return;
         }
