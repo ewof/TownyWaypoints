@@ -132,7 +132,7 @@ public class TownyWaypointsCommand extends BaseCommand
 
         TownBlock playerTownBlock = townyAPI.getTownBlock(player);
 
-        if (playerTownBlock == null || (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && TownyWaypointsSettings.getPeerToPeer() && !playerTownBlock.getType().getName().equals(waypointName))) {
+        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && (playerTownBlock == null || TownyWaypointsSettings.getPeerToPeer() && !playerTownBlock.getType().getName().equals(waypointName))) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_p2p", waypointName, waypointName));
             return;
         }
