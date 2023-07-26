@@ -13,6 +13,7 @@ import net.mvndicraft.townywaypoints.settings.TownyWaypointsSettings;
 import net.mvndicraft.townywaypoints.util.Messaging;
 import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("townywaypoints|twaypoints|twp")
@@ -20,14 +21,14 @@ public class TownyWaypointsCommand extends BaseCommand
 {
     @Default
     @Description("Lists the version of the plugin")
-    public static void onTownyWaypoints(Player player)
+    public static void onTownyWaypoints(CommandSender player)
     {
         player.sendMessage(Component.text(TownyWaypoints.getInstance().toString()));
     }
 
     @Subcommand("reload") @CommandPermission(TownyWaypoints.ADMIN_PERMISSION)
     @Description("Reloads the plugin config and locales.")
-    public static void onReload(Player player)
+    public static void onReload(CommandSender player)
     {
         Settings.loadConfigAndLang();
         Messaging.sendMsg(player, Translatable.of("townywaypoints_msg_reload", TownyWaypoints.getInstance().getName()));
