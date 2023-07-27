@@ -14,6 +14,7 @@ stable:
     - SAVANNA
     - WINDSWEPT_FOREST
     - WINDSWEPT_SAVANNA
+    - FLOWER_FOREST
 seaport:
   name: "seaport"
   mapKey: 'P' # A single character to be shown on the /towny map and /towny map hud.
