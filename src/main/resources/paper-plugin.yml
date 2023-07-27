@@ -1,5 +1,5 @@
 name: TownyWaypoints
-version: '1.0'
+version: '1.1'
 main: net.mvndicraft.townywaypoints.TownyWaypoints
 description: Configurable Waypoints as Towny plots
 api-version: '1.20'
