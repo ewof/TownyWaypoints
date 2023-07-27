@@ -91,14 +91,16 @@ A `waypoints.yml` like this means two plot types will be available to players, s
 
 Stables
 - Have a map key of `S`
-- Cost $100 to travel to/create
+- Cost $4500 to create
+- Cost $450 to travel to
 - Are limited to 2 per town
 - Can be created only by players with the `townywaypoints.landpoint.stable` permission
 - Can be created in most land biomes
 
 Seaports
 - Have a map key of `P`
-- Cost $200 to travel to/create
+- Cost $2500 to create
+- Cost $250 to travel to
 - Are limited to 2 per town
 - Can be created by all players
 - Can only be created in beach and ocean biomes
