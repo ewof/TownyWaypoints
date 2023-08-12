@@ -161,7 +161,7 @@ public class TownyWaypointsCommand extends BaseCommand
         if (player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) || cooldown == 0) {
             TownyWaypoints.getEconomy().withdrawPlayer(player, travelcost);
             Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
-            teleport(player, loc, waypoint, townyAPI);
+            teleport(player, loc, waypoint);
             
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
                 CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
@@ -170,7 +170,7 @@ public class TownyWaypointsCommand extends BaseCommand
         }
     }
 
-    private static void teleport(@Nonnull final Player player, @Nonnull Location loc, Waypoint waypoint, TownyAPI townyAPI) {
+    private static void teleport(@Nonnull final Player player, @Nonnull Location loc, Waypoint waypoint) {
         boolean needToTpVehicule = waypoint.isTravelWithHorses() && player.isInsideVehicle();
         final Entity vehicle = player.getVehicle();
         if(needToTpVehicule){
@@ -178,19 +178,8 @@ public class TownyWaypointsCommand extends BaseCommand
             PaperLib.teleportAsync(vehicle, loc, TeleportCause.COMMAND);
         }
         PaperLib.teleportAsync(player, loc, TeleportCause.COMMAND);
-        // if(needToTpVehicule){
-        //     runTask(vehicle, () -> {
-            //     },);
         if(Bukkit.getPluginManager().getPlugin("Towny") instanceof Towny towny){
             towny.getScheduler().runLater(loc, () -> vehicle.addPassenger(player), 0);
         }
-        // PaperLib.getChunkAtAsync(loc).thenAccept(chunk -> {
-        //     Messaging.sendMsg(player, Translatable.of("Mount vehicle"));
-        //     vehicle.addPassenger(player);
-        // });
-
-        // TownyWaypoints.getScheduler().runTaskLater(loc, () -> {
-        //     vehicle.addPassenger(player);
-        // }, 1);
     }
 }
