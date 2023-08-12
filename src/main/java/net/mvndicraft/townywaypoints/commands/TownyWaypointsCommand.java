@@ -171,7 +171,7 @@ public class TownyWaypointsCommand extends BaseCommand
     }
 
     private static void teleport(@Nonnull final Player player, @Nonnull Location loc, Waypoint waypoint) {
-        boolean needToTpVehicule = waypoint.isTravelWithHorses() && player.isInsideVehicle();
+        boolean needToTpVehicule = waypoint.travelWithVehicle() && player.isInsideVehicle();
         Entity vehicle = player.getVehicle();
         if(needToTpVehicule){
             vehicle.eject();

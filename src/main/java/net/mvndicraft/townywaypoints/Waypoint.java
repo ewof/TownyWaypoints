@@ -52,7 +52,7 @@ public final class Waypoint {
     {
         return sea;
     }
-    public boolean isTravelWithHorses()
+    public boolean travelWithVehicle()
     {
         return travelWithVehicule;
     }
