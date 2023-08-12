@@ -9,11 +9,11 @@ public final class Waypoint {
     private final double travelCost;
     private final int max;
     private final boolean sea;
-    private final boolean travelWithVehicule;
+    private final boolean travelWithVehicle;
     private final String permission;
     private final List<String> allowedBiomes;
 
-    public Waypoint(String name, String mapKey, double cost, double travelCost, int max, boolean sea, boolean travelWithVehicule, String permission, List<String> allowedBiomes)
+    public Waypoint(String name, String mapKey, double cost, double travelCost, int max, boolean sea, boolean travelWithVehicle, String permission, List<String> allowedBiomes)
     {
         this.name = name;
         this.mapKey = mapKey;
@@ -21,7 +21,7 @@ public final class Waypoint {
         this.travelCost = travelCost;
         this.max = max;
         this.sea = sea;
-        this.travelWithVehicule = travelWithVehicule;
+        this.travelWithVehicle = travelWithVehicle;
         this.permission = permission;
         this.allowedBiomes = allowedBiomes;
     }
@@ -54,7 +54,7 @@ public final class Waypoint {
     }
     public boolean travelWithVehicle()
     {
-        return travelWithVehicule;
+        return travelWithVehicle;
     }
 
     public String getPermission()
