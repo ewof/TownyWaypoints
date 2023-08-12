@@ -1,10 +1,28 @@
 package net.mvndicraft.townywaypoints.commands;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import javax.annotation.Nonnull;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.object.*;
+import com.palmergames.bukkit.towny.object.Resident;
+import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.object.TownBlock;
+import com.palmergames.bukkit.towny.object.Translatable;
 import com.palmergames.bukkit.towny.tasks.CooldownTimerTask;
+import com.palmergames.paperlib.PaperLib;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.Syntax;
 import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 import net.mvndicraft.townywaypoints.Waypoint;
@@ -12,9 +30,6 @@ import net.mvndicraft.townywaypoints.settings.Settings;
 import net.mvndicraft.townywaypoints.settings.TownyWaypointsSettings;
 import net.mvndicraft.townywaypoints.util.Messaging;
 import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 @CommandAlias("townywaypoints|twaypoints|twp")
 public class TownyWaypointsCommand extends BaseCommand
@@ -146,11 +161,36 @@ public class TownyWaypointsCommand extends BaseCommand
         if (player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) || cooldown == 0) {
             TownyWaypoints.getEconomy().withdrawPlayer(player, travelcost);
             Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
-            townyAPI.requestTeleport(player, loc);
+            teleport(player, loc, waypoint, townyAPI);
+            
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
                 CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
         } else {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_cooldown", cooldown, townBlock.getName()));
         }
+    }
+
+    private static void teleport(@Nonnull final Player player, @Nonnull Location loc, Waypoint waypoint, TownyAPI townyAPI) {
+        boolean needToTpVehicule = waypoint.isTravelWithHorses() && player.isInsideVehicle();
+        final Entity vehicle = player.getVehicle();
+        if(needToTpVehicule){
+            vehicle.eject();
+            PaperLib.teleportAsync(vehicle, loc, TeleportCause.COMMAND);
+        }
+        PaperLib.teleportAsync(player, loc, TeleportCause.COMMAND);
+        // if(needToTpVehicule){
+        //     runTask(vehicle, () -> {
+            //     },);
+        if(Bukkit.getPluginManager().getPlugin("Towny") instanceof Towny towny){
+            towny.getScheduler().runLater(loc, () -> vehicle.addPassenger(player), 0);
+        }
+        // PaperLib.getChunkAtAsync(loc).thenAccept(chunk -> {
+        //     Messaging.sendMsg(player, Translatable.of("Mount vehicle"));
+        //     vehicle.addPassenger(player);
+        // });
+
+        // TownyWaypoints.getScheduler().runTaskLater(loc, () -> {
+        //     vehicle.addPassenger(player);
+        // }, 1);
     }
 }

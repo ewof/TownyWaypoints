@@ -171,6 +171,7 @@ public class TownyWaypoints extends JavaPlugin
       config.getDouble("travel_cost"),
       config.getInt("max"),
       config.getBoolean("sea"),
+      config.getBoolean("travel_with_vehicle"),
       config.getString("permission"),
       config.contains(instance.biomeKey) ? config.getStringList(instance.biomeKey) : new ArrayList<>()
     );
