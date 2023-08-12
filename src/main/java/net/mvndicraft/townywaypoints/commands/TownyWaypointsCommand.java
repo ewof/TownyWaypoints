@@ -160,7 +160,7 @@ public class TownyWaypointsCommand extends BaseCommand
         int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
         if (player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) || cooldown == 0) {
             TownyWaypoints.getEconomy().withdrawPlayer(player, travelcost);
-            Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
+            Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup", travelcost));
             teleport(player, loc, waypoint);
             
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))

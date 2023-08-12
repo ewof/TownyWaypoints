@@ -34,7 +34,7 @@ msg_err_waypoint_travel_insufficient_permission: 'You do not have permission to 
 msg_err_waypoint_create_insufficient_funds: 'Insufficient funds! Create cost for %s is %.2f!'
 msg_err_waypoint_create_insufficient_permission: 'You do not have permission to create %s waypoint!'
 msg_err_waypoint_travel_too_far: '%s is too far away! Maximum travel distance is %d.'
-msg_waypoint_travel_warmup: 'Waiting to teleport...'
+msg_waypoint_travel_warmup: 'Teleport cost you %.2f. Waiting to teleport...'
 msg_err_waypoint_travel_cooldown: 'You must wait %ds before traveling to %s!'
 msg_err_waypoint_p2p: 'You must be standing in a %s waypoint plot to travel to another %s waypoint!'
 msg_err_waypoint_set_spawn_insufficient_permission: 'You do not have permission to set the spawn of this waypoint!'
