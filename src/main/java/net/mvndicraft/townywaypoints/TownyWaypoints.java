@@ -1,6 +1,8 @@
 package net.mvndicraft.townywaypoints;
 
 import co.aikar.commands.PaperCommandManager;
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import com.google.common.collect.ImmutableList;
 import com.palmergames.bukkit.towny.TownyAPI;
 import com.palmergames.bukkit.towny.object.*;
@@ -27,6 +29,7 @@ public class TownyWaypoints extends JavaPlugin
 {
   private static TownyWaypoints instance;
   private static Economy economy;
+  private static TaskScheduler scheduler;
   protected static final ConcurrentHashMap<String, Waypoint> waypoints = new ConcurrentHashMap<>();
   private final String biomeKey = "allowed_biomes";
 
@@ -103,6 +106,7 @@ public class TownyWaypoints extends JavaPlugin
   public void onLoad()
   {
     instance = this;
+    scheduler = UniversalScheduler.getScheduler(instance);
     loadWaypoints();
   }
 
@@ -135,9 +139,15 @@ public class TownyWaypoints extends JavaPlugin
     return economy;
   }
 
+  public static TaskScheduler getScheduler()
+  {
+    return scheduler;
+  }
+
   public String getVersion() {
     return instance.getPluginMeta().getVersion();
   }
+
   public static ConcurrentHashMap<String, Waypoint> getWaypoints()
   {
     return waypoints;
@@ -171,6 +181,7 @@ public class TownyWaypoints extends JavaPlugin
       config.getDouble("travel_cost"),
       config.getInt("max"),
       config.getBoolean("sea"),
+      config.getBoolean("travel_with_vehicle"),
       config.getString("permission"),
       config.contains(instance.biomeKey) ? config.getStringList(instance.biomeKey) : new ArrayList<>()
     );
