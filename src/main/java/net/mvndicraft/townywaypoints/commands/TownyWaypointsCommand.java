@@ -171,15 +171,15 @@ public class TownyWaypointsCommand extends BaseCommand
     }
 
     private static void teleport(@Nonnull final Player player, @Nonnull Location loc, Waypoint waypoint) {
-        boolean needToTpVehicle = waypoint.travelWithVehicle() && player.isInsideVehicle();
         Entity vehicle = player.getVehicle();
-        if(needToTpVehicle && vehicle != null){
+        boolean needToTpVehicle = waypoint.travelWithVehicle() && player.isInsideVehicle() && vehicle != null;
+
+        if(needToTpVehicle) {
             vehicle.eject();
             PaperLib.teleportAsync(vehicle, loc, TeleportCause.COMMAND);
         }
         PaperLib.teleportAsync(player, loc, TeleportCause.COMMAND);
-        if(needToTpVehicle && vehicle != null && Bukkit.getPluginManager().getPlugin("Towny") instanceof Towny towny){
-            towny.getScheduler().runLater(loc, () -> vehicle.addPassenger(player), 0);
-        }
+        if(needToTpVehicle)
+            TownyWaypoints.getScheduler().runTask(loc, () -> vehicle.addPassenger(player));
     }
 }

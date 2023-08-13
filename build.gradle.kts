@@ -22,11 +22,13 @@ dependencies {
   compileOnly("io.github.townyadvanced.commentedconfiguration:CommentedConfiguration:1.0.0")
   compileOnly("com.github.MilkBowl:VaultAPI:1.7")
   implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+  implementation("com.github.Anon8281:UniversalScheduler:0.1.6")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
   relocate("co.aikar.commands","net.mvndicraft.townywaypoints.acf")
   relocate("co.aikar.locales","net.mvndicraft.townywaypoints.locales")
+  relocate("com.github.Anon8281.universalScheduler", "net.mvndicraft.townywaypoints.universalscheduler")
 }
 
 java {
