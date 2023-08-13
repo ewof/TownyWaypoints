@@ -123,11 +123,13 @@ public class TownyWaypointsCommand extends BaseCommand
         Waypoint waypoint = TownyWaypoints.getWaypoints().get(waypointName);
         double travelcost = waypoint.getTravelCost();
 
+        boolean admin = player.hasPermission(TownyWaypoints.ADMIN_PERMISSION);
+
         String plotName = townBlock.getName();
         if (plotName.equals(""))
             plotName = Translatable.of("townywaypoints_plot_unnamed").defaultLocale();
 
-        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && TownyWaypoints.getEconomy().getBalance(player) - travelcost < 0) {
+        if (!admin && TownyWaypoints.getEconomy().getBalance(player) - travelcost < 0) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, travelcost));
             return;
         }
@@ -139,7 +141,7 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
         }
 
-        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && (TownyWaypointsSettings.getMaxDistance() != -1 && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
+        if (!admin && (TownyWaypointsSettings.getMaxDistance() != -1 && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(), TownyWaypointsSettings.getMaxDistance()));
             return;
         }
@@ -148,7 +150,7 @@ public class TownyWaypointsCommand extends BaseCommand
 
         TownBlock playerTownBlock = townyAPI.getTownBlock(player);
 
-        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && (playerTownBlock == null || TownyWaypointsSettings.getPeerToPeer() && !playerTownBlock.getType().getName().equals(waypointName))) {
+        if (!admin && (playerTownBlock == null || TownyWaypointsSettings.getPeerToPeer() && !playerTownBlock.getType().getName().equals(waypointName))) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_p2p", waypointName, waypointName));
             return;
         }
@@ -158,9 +160,12 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
 
         int cooldown = CooldownTimerTask.getCooldownRemaining(player.getName(), "waypoint");
-        if (player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) || cooldown == 0) {
+        if (admin || cooldown == 0) {
             TownyWaypoints.getEconomy().withdrawPlayer(player, travelcost);
-            Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup", travelcost));
+            if (admin)
+                Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup", travelcost));
+            else
+                Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
 
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
