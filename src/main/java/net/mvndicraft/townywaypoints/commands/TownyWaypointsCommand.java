@@ -163,7 +163,7 @@ public class TownyWaypointsCommand extends BaseCommand
         if (admin || cooldown == 0) {
             TownyWaypoints.getEconomy().withdrawPlayer(player, travelcost);
             if (admin)
-                Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup", travelcost));
+                Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup"));
             else
                 Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
