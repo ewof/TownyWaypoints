@@ -7,7 +7,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
@@ -167,13 +166,14 @@ public class TownyWaypointsCommand extends BaseCommand {
                 Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
 
-            double splitCost = travelcost * TownyWaypointsSettings.getSplit();
+            double splitCostNation = travelcost * (1.0 - TownyWaypointsSettings.getSplit());
+            double splitCostTown = travelcost * TownyWaypointsSettings.getSplit();
 
-            town.getAccount().deposit(town.hasNation() ? splitCost : travelcost,
+            town.getAccount().deposit(town.hasNation() ? splitCostTown : travelcost,
                     Translatable.of("msg_deposit_reason").toString());
 
             if (town.hasNation())
-                town.getNationOrNull().getAccount().deposit(splitCost,
+                town.getNationOrNull().getAccount().deposit(splitCostNation,
                         Translatable.of("msg_deposit_reason").toString());
 
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
