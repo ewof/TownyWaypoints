@@ -1,14 +1,13 @@
 package net.mvndicraft.townywaypoints.commands;
 
 import javax.annotation.Nonnull;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownBlock;
@@ -32,19 +31,17 @@ import net.mvndicraft.townywaypoints.util.Messaging;
 import net.mvndicraft.townywaypoints.util.TownBlockMetaDataController;
 
 @CommandAlias("townywaypoints|twaypoints|twp")
-public class TownyWaypointsCommand extends BaseCommand
-{
+public class TownyWaypointsCommand extends BaseCommand {
     @Default
     @Description("Lists the version of the plugin")
-    public static void onTownyWaypoints(CommandSender player)
-    {
+    public static void onTownyWaypoints(CommandSender player) {
         player.sendMessage(Component.text(TownyWaypoints.getInstance().toString()));
     }
 
-    @Subcommand("reload") @CommandPermission(TownyWaypoints.ADMIN_PERMISSION)
+    @Subcommand("reload")
+    @CommandPermission(TownyWaypoints.ADMIN_PERMISSION)
     @Description("Reloads the plugin config and locales.")
-    public static void onReload(CommandSender player)
-    {
+    public static void onReload(CommandSender player) {
         Settings.loadConfigAndLang();
         Messaging.sendMsg(player, Translatable.of("townywaypoints_msg_reload", TownyWaypoints.getInstance().getName()));
     }
@@ -53,30 +50,30 @@ public class TownyWaypointsCommand extends BaseCommand
     @Syntax("set <property> [<value>]")
     @CommandCompletion("@open_statuses @nothing")
     @Description("Change which people the plot is open to teleports from.")
-    public static void onSetOpen(Player player, String status)
-    {
-        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && !player.hasPermission("towny.command.town.toggle.public")) {
+    public static void onSetOpen(Player player, String status) {
+        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION)
+                && !player.hasPermission("towny.command.town.toggle.public")) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_set_open_insufficient_permission"));
             return;
         }
 
         TownBlock townBlock = TownyAPI.getInstance().getTownBlock(player);
         if (townBlock == null) {
-            Messaging.sendErrorMsg(player,Translatable.of("msg_err_not_in_townblock"));
+            Messaging.sendErrorMsg(player, Translatable.of("msg_err_not_in_townblock"));
             return;
         }
 
         TownBlockMetaDataController.setSdf(townBlock, TownBlockMetaDataController.statusKey, status);
 
-        Messaging.sendMsg(player,Translatable.of("msg_status_set",status));
+        Messaging.sendMsg(player, Translatable.of("msg_status_set", status));
     }
 
     @Subcommand("set spawn")
     @Syntax("set <property> <value>")
     @Description("Set the block a player gets teleported to on arival for a waypoint plot.")
-    public static void onSetSpawn(Player player)
-    {
-        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION) && !player.hasPermission("towny.command.town.set.spawn")) {
+    public static void onSetSpawn(Player player) {
+        if (!player.hasPermission(TownyWaypoints.ADMIN_PERMISSION)
+                && !player.hasPermission("towny.command.town.set.spawn")) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_set_spawn_insufficient_permission"));
             return;
         }
@@ -89,7 +86,7 @@ public class TownyWaypointsCommand extends BaseCommand
 
         Location loc = player.getLocation();
 
-        Messaging.sendMsg(player, Translatable.of("msg_spawn_set",loc.toString()));
+        Messaging.sendMsg(player, Translatable.of("msg_spawn_set", loc.toString()));
         TownBlockMetaDataController.setSpawn(townBlock, loc);
     }
 
@@ -97,16 +94,14 @@ public class TownyWaypointsCommand extends BaseCommand
     @Syntax("<town> <waypoint> <plot name>")
     @CommandCompletion("@waypointed_towns @town_waypoints @waypoint_plot_names @nothing")
     @Description("Travel between different waypoints.")
-    public static void onTravel(Player player, String townName, String waypointName, String waypointPlotName)
-    {
+    public static void onTravel(Player player, String townName, String waypointName, String waypointPlotName) {
         Town town = TownyAPI.getInstance().getTown(townName);
 
         if (town == null)
             return;
 
         TownBlock townBlock = null;
-        for (TownBlock _townBlock:town.getTownBlocks())
-        {
+        for (TownBlock _townBlock : town.getTownBlocks()) {
             String plotName = _townBlock.getName();
             if (plotName.equals(""))
                 plotName = Translatable.of("townywaypoints_plot_unnamed").defaultLocale();
@@ -130,7 +125,8 @@ public class TownyWaypointsCommand extends BaseCommand
             plotName = Translatable.of("townywaypoints_plot_unnamed").defaultLocale();
 
         if (!admin && TownyWaypoints.getEconomy().getBalance(player) - travelcost < 0) {
-            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, travelcost));
+            Messaging.sendErrorMsg(player,
+                    Translatable.of("msg_err_waypoint_travel_insufficient_funds", plotName, travelcost));
             return;
         }
 
@@ -141,8 +137,10 @@ public class TownyWaypointsCommand extends BaseCommand
             return;
         }
 
-        if (!admin && (TownyWaypointsSettings.getMaxDistance() != -1 && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
-            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(), TownyWaypointsSettings.getMaxDistance()));
+        if (!admin && (TownyWaypointsSettings.getMaxDistance() != -1
+                && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
+            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(),
+                    TownyWaypointsSettings.getMaxDistance()));
             return;
         }
 
@@ -150,7 +148,8 @@ public class TownyWaypointsCommand extends BaseCommand
 
         TownBlock playerTownBlock = townyAPI.getTownBlock(player);
 
-        if (!admin && (playerTownBlock == null || TownyWaypointsSettings.getPeerToPeer() && !playerTownBlock.getType().getName().equals(waypointName))) {
+        if (!admin && (playerTownBlock == null || TownyWaypointsSettings.getPeerToPeer()
+                && !playerTownBlock.getType().getName().equals(waypointName))) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_p2p", waypointName, waypointName));
             return;
         }
@@ -168,10 +167,20 @@ public class TownyWaypointsCommand extends BaseCommand
                 Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
 
+            double splitCost = travelcost * TownyWaypointsSettings.getSplit();
+
+            town.getAccount().deposit(town.hasNation() ? splitCost : travelcost,
+                    Translatable.of("msg_deposit_reason").toString());
+
+            if (town.hasNation())
+                town.getNationOrNull().getAccount().deposit(splitCost,
+                        Translatable.of("msg_deposit_reason").toString());
+
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
                 CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
         } else {
-            Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_cooldown", cooldown, townBlock.getName()));
+            Messaging.sendErrorMsg(player,
+                    Translatable.of("msg_err_waypoint_travel_cooldown", cooldown, townBlock.getName()));
         }
     }
 
@@ -179,12 +188,12 @@ public class TownyWaypointsCommand extends BaseCommand
         Entity vehicle = player.getVehicle();
         boolean needToTpVehicle = travelWithVehicle && player.isInsideVehicle() && vehicle != null;
 
-        if(needToTpVehicle) {
+        if (needToTpVehicle) {
             vehicle.eject();
             PaperLib.teleportAsync(vehicle, loc, TeleportCause.COMMAND);
         }
         PaperLib.teleportAsync(player, loc, TeleportCause.COMMAND);
-        if(needToTpVehicle)
+        if (needToTpVehicle)
             TownyWaypoints.getScheduler().runTask(loc, () -> vehicle.addPassenger(player));
     }
 }

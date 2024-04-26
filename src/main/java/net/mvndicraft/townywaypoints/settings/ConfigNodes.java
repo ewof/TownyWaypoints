@@ -8,7 +8,22 @@ public enum ConfigNodes {
     LANGUAGE("language",
             "en_US.yml",
             "# The language file you wish to use."),
-    WAYPOINTS("waypoints","",""),
+    WAYPOINTS("waypoints", "", ""),
+    WAYPOINTS_ECONOMY(
+            "waypoints.economy",
+            "",
+            "",
+            "############################################################",
+            "# +------------------------------------------------------+ #",
+            "# |                       Economy                        | #",
+            "# +------------------------------------------------------+ #",
+            "############################################################",
+            ""),
+    WAYPOINTS_ECONOMY_SPLIT(
+            "waypoints.economy.split",
+            "0.5",
+            "",
+            "# The percentage of the travel cost that gets added to the waypoints town bank, the rest goes to the nation (if it has no nation then 100% goes to the town)."),
     WAYPOINTS_RESTRICTIONS(
             "waypoints.restrictions",
             "",
@@ -18,7 +33,7 @@ public enum ConfigNodes {
             "# |                   Restrictions                       | #",
             "# +------------------------------------------------------+ #",
             "############################################################",
-    ""),
+            ""),
     WAYPOINTS_RESTRICTIONS_MAX_DISTANCE(
             "waypoints.restrictions.max_distance",
             "2700",
@@ -40,8 +55,7 @@ public enum ConfigNodes {
     private final String Default;
     private final String[] comments;
 
-    ConfigNodes(String root, String def, String... comments)
-    {
+    ConfigNodes(String root, String def, String... comments) {
 
         this.Root = root;
         this.Default = def;
@@ -53,8 +67,7 @@ public enum ConfigNodes {
      *
      * @return The root for a config option
      */
-    public String getRoot()
-    {
+    public String getRoot() {
 
         return Root;
     }
@@ -64,8 +77,7 @@ public enum ConfigNodes {
      *
      * @return The default value for a config path
      */
-    public String getDefault()
-    {
+    public String getDefault() {
 
         return Default;
     }
@@ -75,8 +87,7 @@ public enum ConfigNodes {
      *
      * @return The comments for a config path
      */
-    public String[] getComments()
-    {
+    public String[] getComments() {
         if (comments != null) {
             return comments;
         }
