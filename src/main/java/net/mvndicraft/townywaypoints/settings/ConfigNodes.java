@@ -23,7 +23,7 @@ public enum ConfigNodes {
             "waypoints.economy.split",
             "0.5",
             "",
-            "# The percentage of the travel cost that gets added to the waypoints town bank, the rest goes to the nation (if it has no nation then 100% goes to the town)."),
+            "# The percentage of the travel cost that gets added to the waypoints town bank, the rest goes to the nation (if it has no nation then 100% goes to the town). Set to -1 to disable (neither the town or nation bank gets any of the travel cost)."),
     WAYPOINTS_RESTRICTIONS(
             "waypoints.restrictions",
             "",

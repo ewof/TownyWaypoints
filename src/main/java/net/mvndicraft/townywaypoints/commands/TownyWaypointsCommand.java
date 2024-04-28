@@ -166,15 +166,17 @@ public class TownyWaypointsCommand extends BaseCommand {
                 Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
 
-            double splitCostNation = travelcost * (1.0 - TownyWaypointsSettings.getSplit());
-            double splitCostTown = travelcost * TownyWaypointsSettings.getSplit();
+            if (TownyWaypointsSettings.getSplit() != -1) {
+                double splitCostNation = travelcost * (1.0 - TownyWaypointsSettings.getSplit());
+                double splitCostTown = travelcost * TownyWaypointsSettings.getSplit();
 
-            town.getAccount().deposit(town.hasNation() ? splitCostTown : travelcost,
-                    Translatable.of("msg_deposit_reason").toString());
-
-            if (town.hasNation())
-                town.getNationOrNull().getAccount().deposit(splitCostNation,
+                town.getAccount().deposit(town.hasNation() ? splitCostTown : travelcost,
                         Translatable.of("msg_deposit_reason").toString());
+
+                if (town.hasNation())
+                    town.getNationOrNull().getAccount().deposit(splitCostNation,
+                            Translatable.of("msg_deposit_reason").toString());
+            }
 
             if (!CooldownTimerTask.hasCooldown(player.getName(), "waypoint"))
                 CooldownTimerTask.addCooldownTimer(player.getName(), "waypoint", TownyWaypointsSettings.getCooldown());
