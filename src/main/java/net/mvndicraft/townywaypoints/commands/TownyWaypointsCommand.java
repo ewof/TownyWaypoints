@@ -1,6 +1,8 @@
 package net.mvndicraft.townywaypoints.commands;
 
 import javax.annotation.Nonnull;
+
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -166,7 +168,8 @@ public class TownyWaypointsCommand extends BaseCommand {
                 Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
 
-            if (TownyWaypointsSettings.getSplit() != -1) {
+            if (TownyWaypointsSettings.getSplit() != -1 || player.getGameMode() == GameMode.CREATIVE
+                    || player.getGameMode() == GameMode.SPECTATOR) {
                 double splitCostNation = travelcost * (1.0 - TownyWaypointsSettings.getSplit());
                 double splitCostTown = travelcost * TownyWaypointsSettings.getSplit();
 
