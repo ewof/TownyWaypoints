@@ -168,8 +168,8 @@ public class TownyWaypointsCommand extends BaseCommand {
                 Messaging.sendMsg(player, Translatable.of("msg_waypoint_travel_warmup_cost", travelcost));
             teleport(player, loc, waypoint.travelWithVehicle());
 
-            if (TownyWaypointsSettings.getSplit() != -1 || player.getGameMode() == GameMode.SURVIVAL
-                    || player.getGameMode() == GameMode.ADVENTURE) {
+            if (TownyWaypointsSettings.getSplit() != -1 && (player.getGameMode() == GameMode.SURVIVAL
+                    || player.getGameMode() == GameMode.ADVENTURE)) {
                 double splitCostNation = travelcost * (1.0 - TownyWaypointsSettings.getSplit());
                 double splitCostTown = travelcost * TownyWaypointsSettings.getSplit();
 
