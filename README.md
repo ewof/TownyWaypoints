@@ -18,29 +18,41 @@ Default config:
 
 ```yaml
 # This is the current version. Please do not edit.
-version: '1.0'
+version: '1.3'
 # The language file you wish to use.
 language: en_US.yml
-
+  
 waypoints:
-
+  
+  ############################################################
+  # +------------------------------------------------------+ #
+  # |                       Economy                        | #
+  # +------------------------------------------------------+ #
+  ############################################################
+  
+  economy:
+  
+    # The percentage of the travel cost that gets added to the waypoints town bank, the rest goes to the nation (if it has no nation then 100% goes to the town). Set to -1 to disable (neither the town or nation bank gets any of the travel cost).
+    split: '0.5'
+  
   ############################################################
   # +------------------------------------------------------+ #
   # |                   Restrictions                       | #
   # +------------------------------------------------------+ #
   ############################################################
-
+  
   restrictions:
-
+  
     # The maximum number of blocks a player can travel between waypoints.
     # Disabled with value of -1
     max_distance: '2700'
-
+  
     # The amount of seconds a player must wait between waypoint travels.
     cooldown: '300'
-
+  
     # If true players can only teleport from one waypoint type to another.
     peer_to_peer: 'true'
+
 ```
 
 - `waypoints.restrictions.max_distance` is the maximum number of blocks a player can travel via waypoints. A player cannot travel to a waypoint that is `max_distance` blocks away from their current location.
