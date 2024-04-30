@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.mvndicraft.townywaypoints"
-version = "1.3"
+version = "1.4"
 description = "Configurable plot types for Towny that players can teleport between."
 
 repositories {
@@ -60,7 +60,7 @@ tasks {
             "group" to project.group
         )
         inputs.properties(props)
-        filesMatching("plugin.yml") {
+        filesMatching("paper-plugin.yml") {
             expand(props)
         }
     }
