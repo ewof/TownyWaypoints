@@ -1,12 +1,12 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.7"
+    `maven-publish`
 }
 
 group = "net.mvndicraft.townywaypoints"
-version = "1.3-SNAPSHOT"
+version = "1.3"
+description = "Configurable plot types for Towny that players can teleport between."
 
 repositories {
   mavenCentral()
@@ -25,12 +25,49 @@ dependencies {
   implementation("com.github.Anon8281:UniversalScheduler:0.1.6")
 }
 
-tasks.named<ShadowJar>("shadowJar") {
-  relocate("co.aikar.commands","net.mvndicraft.townywaypoints.acf")
-  relocate("co.aikar.locales","net.mvndicraft.townywaypoints.locales")
-  relocate("com.github.Anon8281.universalScheduler", "net.mvndicraft.townywaypoints.universalscheduler")
-}
-
 java {
   toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+tasks {
+    shadowJar {
+        val prefix = "${project.group}.lib"
+        sequenceOf(
+            "co.aikar",
+            "com.github.Anon8281.universalScheduler",
+        ).forEach { pkg ->
+            relocate(pkg, "$prefix.$pkg")
+        }
+
+        archiveFileName.set("${project.name}-${project.version}.jar")
+    }
+    assemble {
+        dependsOn(shadowJar)
+    }
+    compileJava {
+        options.encoding = Charsets.UTF_8.name()
+    }
+    javadoc {
+        options.encoding = Charsets.UTF_8.name()
+    }
+    processResources {
+        filteringCharset = Charsets.UTF_8.name()
+        val props = mapOf(
+            "name" to project.name,
+            "version" to project.version,
+            "description" to project.description,
+            "apiVersion" to "1.20",
+            "group" to project.group
+        )
+        inputs.properties(props)
+        filesMatching("plugin.yml") {
+            expand(props)
+        }
+    }
+}
+
+publishing {
+    publications.create<MavenPublication>("maven") {
+        from(components["java"])
+    }
 }
