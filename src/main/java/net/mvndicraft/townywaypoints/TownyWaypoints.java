@@ -183,6 +183,7 @@ public class TownyWaypoints extends JavaPlugin
       config.getBoolean("sea"),
       config.getBoolean("travel_with_vehicle"),
       config.getString("permission"),
+      config.getInt("max_distance"),
       config.contains(instance.biomeKey) ? config.getStringList(instance.biomeKey) : new ArrayList<>()
     );
   }

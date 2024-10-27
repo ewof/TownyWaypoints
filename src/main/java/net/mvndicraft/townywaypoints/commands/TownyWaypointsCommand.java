@@ -36,7 +36,7 @@ public class TownyWaypointsCommand extends BaseCommand {
     @Default
     @Description("Lists the version of the plugin")
     public static void onTownyWaypoints(CommandSender player) {
-        player.sendMessage(Component.text(TownyWaypoints.getInstance().toString()));
+        player.sendMessage(Component.text(TownyWaypoints.getInstance().toString()).toString());
     }
 
     @Subcommand("reload")
@@ -138,10 +138,13 @@ public class TownyWaypointsCommand extends BaseCommand {
             return;
         }
 
-        if (!admin && (TownyWaypointsSettings.getMaxDistance() != -1
-                && player.getLocation().distance(loc) > TownyWaypointsSettings.getMaxDistance())) {
+        double dist = player.getLocation().distance(loc);
+        int dist_to = waypoint.getMaxDistance() != -1 ? waypoint.getMaxDistance()
+                : TownyWaypointsSettings.getMaxDistance();
+
+        if (!admin && (dist > dist_to)) {
             Messaging.sendErrorMsg(player, Translatable.of("msg_err_waypoint_travel_too_far", townBlock.getName(),
-                    TownyWaypointsSettings.getMaxDistance()));
+                    dist_to));
             return;
         }
 

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.mvndicraft.townywaypoints"
-version = "1.4"
+version = "1.5"
 description = "Configurable plot types for Towny that players can teleport between."
 
 repositories {
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-  compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
+  compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
   compileOnly("com.palmergames.bukkit.towny:towny:0.99.5.0")
   compileOnly("io.github.townyadvanced.commentedconfiguration:CommentedConfiguration:1.0.0")
   compileOnly("com.github.MilkBowl:VaultAPI:1.7")
@@ -41,7 +41,7 @@ tasks {
 
         archiveFileName.set("${project.name}-${project.version}.jar")
     }
-    assemble {
+    build {
         dependsOn(shadowJar)
     }
     compileJava {
