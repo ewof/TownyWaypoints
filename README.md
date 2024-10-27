@@ -18,7 +18,7 @@ Default config:
 
 ```yaml
 # This is the current version. Please do not edit.
-version: '1.4'
+version: '1.5'
 # The language file you wish to use.
 language: en_US.yml
 
@@ -77,7 +77,7 @@ stable:
   permission: townywaypoints.landpoint.stable # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
   # The maximum number of blocks a player can travel between waypoints.
   # Uses the global value if -1
-  max_distance: '-1'
+  max_distance: -1
   allowed_biomes:  # List of biomes this plot type can be created on. If it's not provided the plot type can be created on any biome.
     - FOREST
     - PLAINS
@@ -98,7 +98,7 @@ seaport:
   permission: townywaypoints.seapoint.seaport # Permission node required to set a plot to a type of this waypoint, if no permission is set anyone can create this waypoint, grant it in townyperms.yml
   # The maximum number of blocks a player can travel between waypoints.
   # Uses the global value if -1
-  max_distance: '6000'
+  max_distance: 6000
   allowed_biomes: # List of biomes this plot type can be created on. If it's not provided the plot type can be created on any biome.
     - COLD_OCEAN
     - DEEP_COLD_OCEAN
@@ -117,6 +117,7 @@ Stables
 - Are limited to 2 per town
 - Can be created only by players with the `townywaypoints.landpoint.stable` permission
 - Can be created in most land biomes
+- Use the max distance of 2700 from config.yml
 
 Seaports
 - Have a map key of `P`
@@ -125,6 +126,7 @@ Seaports
 - Are limited to 2 per town
 - Can be created by all players
 - Can only be created in beach and ocean biomes
+- Have their own max distance of 6000 seperate the one in config.yml
 
 A player designates a plot as a waypoint by doing `/plot set <waypoint type name>`. <br/>
 They can change things about the waypoint with `/twp set <open> [value]`. <br/>
