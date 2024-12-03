@@ -23,7 +23,6 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Syntax;
-import net.kyori.adventure.text.Component;
 import net.mvndicraft.townywaypoints.TownyWaypoints;
 import net.mvndicraft.townywaypoints.Waypoint;
 import net.mvndicraft.townywaypoints.settings.Settings;
@@ -36,7 +35,7 @@ public class TownyWaypointsCommand extends BaseCommand {
     @Default
     @Description("Lists the version of the plugin")
     public static void onTownyWaypoints(CommandSender player) {
-        player.sendMessage(Component.text(TownyWaypoints.getInstance().toString()).toString());
+        player.sendMessage(TownyWaypoints.getInstance().toString());
     }
 
     @Subcommand("reload")
